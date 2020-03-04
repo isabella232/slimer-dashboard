@@ -5,7 +5,7 @@ import Octicon, {GitPullRequest, IssueOpened, Repo, RepoForked, Lock} from '@git
 import "./Repositories.css";
 
 export const Repositories = ({ repositories = [] }) => (
-  <ul class="repository-list">
+  <ul className="repository-list">
     {repositories.map(
       ({ name, id, descriptionHTML, url, pullRequests, issues, isFork, isPrivate }) => (
         <li key={id} className="repository-item">
@@ -29,7 +29,7 @@ export const Repositories = ({ repositories = [] }) => (
 );
 
 export const RepositoriesPlaceholder = () => (
-    <ul class="repository-list">
+    <ul className="repository-list">
       {Array(20)
         .fill("")
         .map((line, index) => (

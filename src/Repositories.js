@@ -8,12 +8,35 @@ import {
 import { Repositories, RepositoriesPlaceholder } from "./components/Repositories";
 import Wrapper from "./components/Wrapper";
 
+const DEFAULT_REPOS = 30;
+
+export const REPOSITORY_TILE_DATA = gql`
+  fragment RepositoryTile on Repository {
+    id
+    nameWithOwner
+    name
+    url
+    descriptionHTML
+    pullRequests(states: OPEN) {
+      totalCount
+    }
+    issues(states: OPEN) {
+      totalCount
+    }
+    stargazers {
+      totalCount
+    }
+    isFork
+    isPrivate
+  }
+`;
+
 const GET_REPOSITORIES = gql`
   query($after: String) {
     search(
       type: REPOSITORY
-      query: "org:TryGhost archived:false"
-      first: 20
+      query: "org:TryGhost archived:false fork:true"
+      first: ${DEFAULT_REPOS}
       after: $after
     ) {
       pageInfo {
@@ -21,30 +44,43 @@ const GET_REPOSITORIES = gql`
         hasNextPage
       }
       nodes {
-        ... on Repository {
-          id
-          nameWithOwner
-          name
-          url
-          descriptionHTML
-          pullRequests(states: OPEN) {
-            totalCount
-          }
-          issues(states: OPEN) {
-            totalCount
-          }
-          stargazers {
-            totalCount
-          }
-          isFork
-          isPrivate
-        }
+        ...RepositoryTile
       }
     }
   }
+  ${REPOSITORY_TILE_DATA}
 `;
 
 class RepositoriesWrapper extends React.Component {
+
+  getRepositories() {
+    this.props.repositories.sort((a, b) => {
+      return b.pullRequests.totalCount - a.pullRequests.totalCount;
+    });
+
+    return this.props.repositories.filter(repo => {
+      let access = false;
+      let origin = false;
+
+      if (this.props.access === 'all') {
+        access = true;
+      } else if (this.props.access === 'private' && repo.isPrivate) {
+        access = true;
+      } else if (this.props.access === 'public' && !repo.isPrivate) {
+        access = true;
+      }
+
+      if (this.props.origin === 'all') {
+        origin = true;
+      } else if (this.props.origin === 'fork' && repo.isFork) {
+        origin = true;
+      } else if (this.props.origin === 'source' && !repo.isFork) {
+        origin = true;
+      }
+
+      return access && origin;
+    });
+  }
   render() {
     if (this.props.error) {
       return (
@@ -67,7 +103,7 @@ class RepositoriesWrapper extends React.Component {
       return (
         <Wrapper>
           <Repositories
-            repositories={this.props.repositories}
+            repositories={this.getRepositories()}
           />
           <RepositoriesPlaceholder />
           <LoadMoreButton loadMore={this.props.loadMore} />
@@ -77,7 +113,7 @@ class RepositoriesWrapper extends React.Component {
     return (
       <Wrapper>
         <Repositories
-          repositories={this.props.repositories}
+          repositories={this.getRepositories()}
         />
         <LoadMoreButton loadMore={this.props.loadMore} />
       </Wrapper>
@@ -96,11 +132,17 @@ export default compose(
           fetchMore({
             variables: { after: search.pageInfo.endCursor },
             updateQuery: (previousResult = {}, { fetchMoreResult = {} }) => {
+              if (fetchMoreResult.search.nodes.length === 0) {
+                return previousResult;
+              }
+
               const previousSearch = previousResult.search || {};
               const currentSearch = fetchMoreResult.search || {};
               const previousNodes = previousSearch.nodes || [];
               const currentNodes = currentSearch.nodes || [];
               // Specify how to merge new results with previous results
+
+
               return {
                 ...previousResult,
                 search: {
