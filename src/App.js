@@ -19,7 +19,7 @@ import Filter from "./components/Filter";
 
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID
 const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
-const AUTH_API_URI = "https://github-oauth-gk.herokuapp.com/authenticate/";
+const AUTH_API_URI = process.env.REACT_APP_AUTH_API_URI;
 
 const client = new ApolloClient({
   uri: "https://api.github.com/graphql",
