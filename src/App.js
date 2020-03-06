@@ -122,9 +122,6 @@ class App extends Component {
           <Filter name="Origin" options={ORIGIN} value={origin} onFilterChange={this.handleOriginChange} />
           {/* <Filter name="Type" options={TYPE} value={type} onFilterChange={this.handleTypeChange}  /> */}
         </div>
-        <div>
-           Mode: {process.env.NODE_ENV}
-        </div>
         <Avatar
           style={{
             transform: `scale(${
