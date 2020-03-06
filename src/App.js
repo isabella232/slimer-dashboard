@@ -18,7 +18,7 @@ import Repositories from "./Repositories";
 import Filter from "./components/Filter";
 
 const CLIENT_ID = "3d8bb11ca5f89f0fc58e";
-const REDIRECT_URI = "http://localhost:3000/";
+const REDIRECT_URI = "https://immense-garden-11019.herokuapp.com/";
 const AUTH_API_URI = "https://github-oauth-gk.herokuapp.com/authenticate/";
 
 const client = new ApolloClient({
