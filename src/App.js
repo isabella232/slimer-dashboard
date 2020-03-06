@@ -118,9 +118,9 @@ class App extends Component {
           <span className="logotype">Slimer Dashboard</span>
         </div>
         <div>
-          <Filter name="Public" options={ACCESS} value={access} onFilterChange={this.handleAccessChange}  /> |
-          <Filter name="Origin" options={ORIGIN} value={origin} onFilterChange={this.handleOriginChange} /> |
-          <Filter name="Type" options={TYPE} value={type} onFilterChange={this.handleTypeChange}  />
+          <Filter name="Public" options={ACCESS} value={access} onFilterChange={this.handleAccessChange}  />&nbsp;
+          <Filter name="Origin" options={ORIGIN} value={origin} onFilterChange={this.handleOriginChange} />
+          {/* <Filter name="Type" options={TYPE} value={type} onFilterChange={this.handleTypeChange}  /> */}
         </div>
         <Avatar
           style={{
