@@ -1,0 +1,86 @@
+.name-placeholder {
+  width: 150px;
+  height: 23px;
+  animation: name-pulse 1s infinite ease-in-out;
+  margin-bottom: 10px;
+}
+.text-placeholder {
+  max-width: 600px;
+  height: 20px;
+  animation: text-pulse 1s infinite ease-in-out;
+  margin-bottom: 10px;
+}
+@keyframes name-pulse {
+  0% {
+    background-color: rgba(3, 102, 214, 0.1);
+  }
+  50% {
+    background-color: rgba(3, 102, 214, 0.3);
+  }
+  100% {
+    background-color: rgba(3, 102, 214, 0.1);
+  }
+}
+@keyframes text-pulse {
+  0% {
+    background-color: rgba(165, 165, 165, 0.1);
+  }
+  50% {
+    background-color: rgba(165, 165, 165, 0.3);
+  }
+  100% {
+    background-color: rgba(165, 165, 165, 0.1);
+  }
+}
+
+.repository-list {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.repository-item {
+  display: flex;
+  align-content: stretch;
+  width: 20%;
+  padding: 0 8px;
+  margin-bottom: 16px;
+}
+
+.repository-item .box {
+  background-color: #fff;
+  border: 1px solid #d1d5da;
+  border-radius: 3px;
+  display: flex;
+  padding: 16px;
+  width: 100%;
+}
+
+.repository-item .content {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+}
+
+.repository-item .content p {
+  flex: 1 0 auto;
+  font-size: 12px;
+}
+
+.repository-item .stats {
+  margin-bottom: 0!important;
+}
+
+.repository-item .stats .octicon {
+  margin-right: 4px;
+}
+
+.repository-item .stat {
+  padding-right: 10px;
+}
+
+.octicon {
+  margin-right: 8px;
+}

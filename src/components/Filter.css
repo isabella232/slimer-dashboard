@@ -1,0 +1,12 @@
+.filter {
+    background: none;
+    border: none;
+    color: #fff;
+    outline: none;
+    font-weight: bold;
+}
+
+.off {
+    color: #cdcdcd;
+    font-weight: normal;
+}
