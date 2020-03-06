@@ -24,9 +24,5 @@
     "should": "13.2.3",
     "sinon": "9.0.0"
   },
-  "dependencies": {
-    "bluebird": "^3.7.2",
-    "ghost-ignition": "^4.1.0",
-    "lodash": "^4.17.15"
-  }
+  "dependencies": {}
 }
