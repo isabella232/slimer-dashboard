@@ -17,8 +17,8 @@ import Repositories from "./Repositories";
 
 import Filter from "./components/Filter";
 
-const CLIENT_ID = "3d8bb11ca5f89f0fc58e";
-const REDIRECT_URI = "https://immense-garden-11019.herokuapp.com/";
+const CLIENT_ID = process.env.REACT_APP_CLIENT_ID
+const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
 const AUTH_API_URI = "https://github-oauth-gk.herokuapp.com/authenticate/";
 
 const client = new ApolloClient({
@@ -121,6 +121,9 @@ class App extends Component {
           <Filter name="Public" options={ACCESS} value={access} onFilterChange={this.handleAccessChange}  />&nbsp;
           <Filter name="Origin" options={ORIGIN} value={origin} onFilterChange={this.handleOriginChange} />
           {/* <Filter name="Type" options={TYPE} value={type} onFilterChange={this.handleTypeChange}  /> */}
+        </div>
+        <div>
+           Mode: {process.env.NODE_ENV}
         </div>
         <Avatar
           style={{
