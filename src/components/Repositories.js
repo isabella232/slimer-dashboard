@@ -1,29 +1,34 @@
 import React from "react";
 
-import Octicon, {GitPullRequest, IssueOpened, Repo, RepoForked, Lock} from '@githubprimer/octicons-react'
+import Octicon, {GitPullRequest, IssueOpened, Repo, RepoForked, Lock, Tools} from '@githubprimer/octicons-react'
 
 import "./Repositories.css";
 
 export const Repositories = ({ repositories = [] }) => (
   <ul className="repository-list">
     {repositories.map(
-      ({ name, id, descriptionHTML, url, pullRequests, issues, isFork, isPrivate }) => (
-        <li key={id} className="repository-item">
-            <div className="box">
-                <div className="content">
-                    <h4>
-                    <Octicon icon={isFork ? RepoForked : (isPrivate ? Lock : Repo)} />
-                    <a href={url}>{name}</a>
-                    </h4>
-                    <p dangerouslySetInnerHTML={{ __html: descriptionHTML }} />
-                    <div className="stats">
-                        <span className="stat"><Octicon icon={IssueOpened} />{issues.totalCount}</span>
-                        <span className="stat"><Octicon icon={GitPullRequest} />{pullRequests.totalCount}</span>
+        ({ name, id, descriptionHTML, url, pullRequests, issues, isFork, isPrivate }) => {
+            let renovatePrs = pullRequests.nodes.filter(node => node.headRefName.startsWith('renovate/'));
+
+            return (
+                <li key={id} className="repository-item">
+                    <div className="box">
+                        <div className="content">
+                            <h4>
+                                <Octicon icon={isFork ? RepoForked : (isPrivate ? Lock : Repo)} />
+                                <a href={url}>{name}</a>
+                            </h4>
+                            <p dangerouslySetInnerHTML={{ __html: descriptionHTML }} />
+                            <div className="stats">
+                                <span className="stat"><Octicon icon={IssueOpened} />{issues.totalCount}</span>
+                                <span className="stat"><Octicon icon={GitPullRequest} />{pullRequests.totalCount}</span>
+                                <span className="stat"><Octicon icon={Tools} />{renovatePrs.length}</span>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </li>
-      )
+                </li>
+            )
+        }
     )}
   </ul>
 );

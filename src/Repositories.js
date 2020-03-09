@@ -8,7 +8,7 @@ import {
 import { Repositories, RepositoriesPlaceholder } from "./components/Repositories";
 import Wrapper from "./components/Wrapper";
 
-const DEFAULT_REPOS = 30;
+const DEFAULT_REPOS = 50;
 
 export const REPOSITORY_TILE_DATA = gql`
   fragment RepositoryTile on Repository {
@@ -17,8 +17,11 @@ export const REPOSITORY_TILE_DATA = gql`
     name
     url
     descriptionHTML
-    pullRequests(states: OPEN) {
+    pullRequests(states: OPEN, first: 100) {
       totalCount
+      nodes {
+        headRefName
+      }
     }
     issues(states: OPEN) {
       totalCount
@@ -39,6 +42,7 @@ const GET_REPOSITORIES = gql`
       first: ${DEFAULT_REPOS}
       after: $after
     ) {
+      repositoryCount
       pageInfo {
         endCursor
         hasNextPage
@@ -104,16 +108,17 @@ class RepositoriesWrapper extends React.Component {
         <Wrapper>
           <Repositories
             repositories={this.getRepositories()}
-          />
+      />
           <RepositoriesPlaceholder />
           <LoadMoreButton loadMore={this.props.loadMore} />
         </Wrapper>
       );
     }
     return (
-      <Wrapper>
+        <Wrapper>
+            {this.props.count}
         <Repositories
-          repositories={this.getRepositories()}
+            repositories={this.getRepositories()}
         />
         <LoadMoreButton loadMore={this.props.loadMore} />
       </Wrapper>
@@ -125,6 +130,7 @@ export default compose(
   graphql(GET_REPOSITORIES, {
     props: ({ data: { error, loading, search, fetchMore } }) => {
       return {
+        count: search ? search.repositoryCount : 0,
         repositories: search ? search.nodes : null,
         loading,
         error,

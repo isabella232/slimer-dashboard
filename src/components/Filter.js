@@ -17,9 +17,9 @@ class Filter extends React.Component {
         return (
             <>
                 <label>{this.props.name}:</label>&nbsp;
-                <select name={this.props.name.toLowerCase()} onChange={this.handleChange}>
+                <select name={this.props.name.toLowerCase()} defaultValue={this.props.value} onChange={this.handleChange}>
                 {Object.keys(this.props.options).map(key => (
-                    <option key={key} value={options[key]} selected={this.props.value === options[key]} >{options[key]}</option>
+                    <option key={key} value={options[key]}>{options[key]}</option>
                 ))}
                 </select>
             </>
