@@ -84,3 +84,6 @@
 .octicon {
   margin-right: 8px;
 }
+.not-ok {
+  color: rgba(247, 7, 7, 0.7)
+}

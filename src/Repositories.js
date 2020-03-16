@@ -58,32 +58,43 @@ const GET_REPOSITORIES = gql`
 class RepositoriesWrapper extends React.Component {
 
   getRepositories() {
-    this.props.repositories.sort((a, b) => {
-      return b.pullRequests.totalCount - a.pullRequests.totalCount;
+    let repositories = this.props.repositories;
+
+    repositories.filter(repo => {
+        let access = false;
+        let origin = false;
+
+        if (this.props.access === 'all') {
+            access = true;
+        } else if (this.props.access === 'private' && repo.isPrivate) {
+            access = true;
+        } else if (this.props.access === 'public' && !repo.isPrivate) {
+            access = true;
+        }
+
+        if (this.props.origin === 'all') {
+            origin = true;
+        } else if (this.props.origin === 'fork' && repo.isFork) {
+            origin = true;
+        } else if (this.props.origin === 'source' && !repo.isFork) {
+            origin = true;
+        }
+
+        return access && origin;
     });
 
-    return this.props.repositories.filter(repo => {
-      let access = false;
-      let origin = false;
+      repositories = repositories.map((repo) => {
+        repo.renovate = {};
+        repo.renovate.totalCount = repo.pullRequests.nodes.filter(node => node.headRefName.startsWith('renovate/')).length;
+        repo.renovate.notConfigured = !repo.pullRequests.nodes.some(node => node.headRefName.startsWith('renovate/config'));
+        return repo;
+      });
 
-      if (this.props.access === 'all') {
-        access = true;
-      } else if (this.props.access === 'private' && repo.isPrivate) {
-        access = true;
-      } else if (this.props.access === 'public' && !repo.isPrivate) {
-        access = true;
-      }
+      repositories = repositories.sort((a, b) => {
+        return b.pullRequests.totalCount - a.pullRequests.totalCount;
+      });
 
-      if (this.props.origin === 'all') {
-        origin = true;
-      } else if (this.props.origin === 'fork' && repo.isFork) {
-        origin = true;
-      } else if (this.props.origin === 'source' && !repo.isFork) {
-        origin = true;
-      }
-
-      return access && origin;
-    });
+      return repositories;
   }
   render() {
     if (this.props.error) {

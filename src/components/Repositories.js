@@ -7,9 +7,8 @@ import "./Repositories.css";
 export const Repositories = ({ repositories = [] }) => (
   <ul className="repository-list">
     {repositories.map(
-        ({ name, id, descriptionHTML, url, pullRequests, issues, isFork, isPrivate }) => {
-            let renovatePrs = pullRequests.nodes.filter(node => node.headRefName.startsWith('renovate/'));
-
+        ({ name, id, descriptionHTML, url, pullRequests, renovate, issues, isFork, isPrivate }) => {
+            console.log(renovate);
             return (
                 <li key={id} className="repository-item">
                     <div className="box">
@@ -22,7 +21,7 @@ export const Repositories = ({ repositories = [] }) => (
                             <div className="stats">
                                 <span className="stat"><Octicon icon={IssueOpened} />{issues.totalCount}</span>
                                 <span className="stat"><Octicon icon={GitPullRequest} />{pullRequests.totalCount}</span>
-                                <span className="stat"><Octicon icon={Tools} />{renovatePrs.length}</span>
+                                <span className={renovate.notConfigured ? 'stat ok' : 'stat not-ok'}><Octicon icon={Tools} />{renovate.totalCount}</span>
                             </div>
                         </div>
                     </div>
