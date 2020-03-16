@@ -31,6 +31,21 @@ export const REPOSITORY_TILE_DATA = gql`
     }
     isFork
     isPrivate
+    travisYaml: object(expression: "master:.travis.yml") {
+      ... on Blob {
+        text
+      }
+    }
+    actionsYaml: object(expression: "master:.github/workflows/actions.yml") {
+      ... on Blob{
+        __typename
+      }
+    }
+    testsYaml: object(expression: "master:.github/workflows/tests.yml") {
+      ... on Blob{
+        __typename
+      }
+    }
   }
 `;
 
@@ -58,7 +73,11 @@ const GET_REPOSITORIES = gql`
 class RepositoriesWrapper extends React.Component {
 
   getRepositories() {
-    let repositories = this.props.repositories;
+      let repositories = this.props.repositories;
+
+      if (!repositories) {
+          return repositories;
+      }
 
     repositories.filter(repo => {
         let access = false;
@@ -87,6 +106,15 @@ class RepositoriesWrapper extends React.Component {
         repo.renovate = {};
         repo.renovate.totalCount = repo.pullRequests.nodes.filter(node => node.headRefName.startsWith('renovate/')).length;
         repo.renovate.notConfigured = !repo.pullRequests.nodes.some(node => node.headRefName.startsWith('renovate/config'));
+
+        repo.cd = {};
+        if (repo.travisYaml) {
+            repo.cd.travis = true;
+            repo.cd.className = 'stat fail';
+        } else if (repo.testsYaml || repo.actionsYaml) {
+            repo.cd.github = true;
+        }
+
         return repo;
       });
 
