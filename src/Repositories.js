@@ -8,7 +8,7 @@ import {
 import { Repositories, RepositoriesPlaceholder } from "./components/Repositories";
 import Wrapper from "./components/Wrapper";
 
-const DEFAULT_REPOS = 50;
+const DEFAULT_REPOS = 100;
 
 export const REPOSITORY_TILE_DATA = gql`
   fragment RepositoryTile on Repository {
