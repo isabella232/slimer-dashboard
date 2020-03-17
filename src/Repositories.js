@@ -36,12 +36,12 @@ export const REPOSITORY_TILE_DATA = gql`
         text
       }
     }
-    actionsYaml: object(expression: "master:.github/workflows/actions.yml") {
+    themeYaml: object(expression: "master:.github/workflows/deploy-theme.yml") {
       ... on Blob{
         __typename
       }
     }
-    testsYaml: object(expression: "master:.github/workflows/tests.yml") {
+    testYaml: object(expression: "master:.github/workflows/test.yml") {
       ... on Blob{
         __typename
       }
@@ -79,7 +79,7 @@ class RepositoriesWrapper extends React.Component {
           return repositories;
       }
 
-    repositories.filter(repo => {
+    repositories = repositories.filter(repo => {
         let access = false;
         let origin = false;
 
@@ -111,7 +111,7 @@ class RepositoriesWrapper extends React.Component {
         if (repo.travisYaml) {
             repo.cd.travis = true;
             repo.cd.className = 'stat fail';
-        } else if (repo.testsYaml || repo.actionsYaml) {
+        } else if (repo.testYaml || repo.themeYaml) {
             repo.cd.github = true;
         }
 
