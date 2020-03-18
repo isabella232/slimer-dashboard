@@ -7,7 +7,7 @@ import "./Repositories.css";
 export const Repositories = ({ repositories = [] }) => (
   <ul className="repository-list">
     {repositories.map(
-        ({ name, id, descriptionHTML, url, pullRequests, renovate, issues, isFork, isPrivate, cd }) => {
+        ({ name, id, descriptionHTML, url, pullRequests, renovate, issues, isFork, isPrivate, cd, node }) => {
             return (
                 <li key={id} className="repository-item">
                     <div className="box">
@@ -16,7 +16,8 @@ export const Repositories = ({ repositories = [] }) => (
                                 <Octicon icon={isFork ? RepoForked : (isPrivate ? Lock : Repo)} />
                                 <a href={url}>{name}</a>
                             </h4>
-                            <p dangerouslySetInnerHTML={{ __html: descriptionHTML }} />
+                            <p className="description" dangerouslySetInnerHTML={{ __html: descriptionHTML }} />
+                            <p>Node: {node}</p>
                             <div className="stats">
                                 <span className="stat"><Octicon icon={IssueOpened} />{issues.totalCount}</span>
                                 <span className="stat"><Octicon icon={GitPullRequest} />{pullRequests.totalCount}</span>

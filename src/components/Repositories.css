@@ -69,6 +69,11 @@
   font-size: 12px;
 }
 
+.repository-item .content .description {
+    height: 2.4rem;
+    overflow: hidden;
+}
+
 .repository-item .stats {
   margin-bottom: 0!important;
 }

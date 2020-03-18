@@ -38,12 +38,12 @@ export const REPOSITORY_TILE_DATA = gql`
     }
     themeYaml: object(expression: "master:.github/workflows/deploy-theme.yml") {
       ... on Blob{
-        __typename
+        text
       }
     }
     testYaml: object(expression: "master:.github/workflows/test.yml") {
       ... on Blob{
-        __typename
+        text
       }
     }
   }
@@ -113,6 +113,22 @@ class RepositoriesWrapper extends React.Component {
             repo.cd.className = 'stat fail';
         } else if (repo.testYaml || repo.themeYaml) {
             repo.cd.github = true;
+
+        }
+
+        if (repo.testYaml) {
+            let nodeRes = repo.testYaml.text.match(/node:\s?\[(.*?)]/);
+
+            if (nodeRes && nodeRes[1]) {
+                repo.node = nodeRes[1].replace(/['",]/gmi, '');
+            }
+        }
+        if (repo.travisYaml) {
+            let nodeRes = repo.travisYaml.text.match(/node_js:([^a-z]+)/);
+
+            if (nodeRes && nodeRes[1]) {
+                repo.node = nodeRes[1].replace(/['"-]/gmi, '');
+            }
         }
 
         return repo;
