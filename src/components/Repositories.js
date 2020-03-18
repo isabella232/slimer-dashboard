@@ -1,6 +1,6 @@
 import React from "react";
 
-import Octicon, {GitPullRequest, IssueOpened, Repo, RepoForked, Lock, Tools, Play} from '@githubprimer/octicons-react'
+import Octicon, {GitPullRequest, IssueOpened, Repo, RepoForked, Lock, Tools, Play, Versions} from '@githubprimer/octicons-react'
 
 import "./Repositories.css";
 
@@ -16,7 +16,7 @@ export const Repositories = ({ repositories = [] }) => (
   <Counts repositories={repositories} />
   <ul className="repository-list">
     {repositories.map(
-        ({ name, id, descriptionHTML, url, pullRequests, renovate, issues, isFork, isPrivate, cd, node }) => {
+        ({ name, id, descriptionHTML, url, pullRequests, renovate, issues, isFork, isPrivate, isMono, cd, node }) => {
             return (
                 <li key={id} className="repository-item">
                     <div className="box">
@@ -24,6 +24,7 @@ export const Repositories = ({ repositories = [] }) => (
                             <h4>
                                 <Octicon icon={isFork ? RepoForked : (isPrivate ? Lock : Repo)} />
                                 <a href={url}>{name}</a>
+                                {isMono ? <Octicon icon={Versions} size="medium" verticalAlign="middle" className="indicator" /> : null}
                             </h4>
                             <p className="description" dangerouslySetInnerHTML={{ __html: descriptionHTML }} />
                             <p>Node: {node}</p>

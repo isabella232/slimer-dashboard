@@ -31,6 +31,16 @@ export const REPOSITORY_TILE_DATA = gql`
     }
     isFork
     isPrivate
+    packageJSON: object(expression: "master:package.json") {
+      ... on Blob {
+        text
+      }
+    }
+    lernaJSON: object(expression: "master:lerna.json") {
+      ... on Blob {
+        text
+      }
+    }
     travisYaml: object(expression: "master:.travis.yml") {
       ... on Blob {
         text
@@ -129,6 +139,10 @@ class RepositoriesWrapper extends React.Component {
             if (nodeRes && nodeRes[1]) {
                 repo.node = nodeRes[1].replace(/['"-]/gmi, '');
             }
+        }
+
+        if (repo.lernaJSON) {
+            repo.isMono = true;
         }
 
         return repo;
