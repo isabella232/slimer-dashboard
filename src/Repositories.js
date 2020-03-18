@@ -171,7 +171,6 @@ class RepositoriesWrapper extends React.Component {
     }
     return (
         <Wrapper>
-            {this.props.count}
         <Repositories
             repositories={this.getRepositories()}
         />
