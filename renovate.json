@@ -6,7 +6,7 @@
     {
       "fileMatch": ["(^|\/)\\.github\/workflows\/.*\\.ya?ml$"],
       "matchStrings": ["\\s+node:\\s\\[\\s(?<currentValue>.*?)\\s\\]\n"],
-      "depName": "nodejs/node",
+      "depNameTemplate": "nodejs/node",
       "versioningTemplate": "node"
     }
   ]
