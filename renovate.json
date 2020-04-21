@@ -6,8 +6,8 @@
     {
       "fileMatch": ["^.github/workflows/*.yml"],
       "matchStrings": ["\\s+node:\\s\\[\\s(?<currentValue>.*?)\\s\\]\n"],
-      "depName": "nodejs/node",
-      "datasource": "github-tags"
+      "depNameTemplate": "nodejs/node",
+      "datasourceTemplate": "github-tags"
     }
   ]
 }
