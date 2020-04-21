@@ -4,7 +4,7 @@
   ],
   "regexManagers": [
     {
-      "fileMatch": ["(^|\/)\.github\/workflows\/.*\.ya?ml$"],
+      "fileMatch": ["(^|\/)\\.github\/workflows\/.*\\.ya?ml$"],
       "matchStrings": ["\\s+node:\\s\\[\\s(?<currentValue>.*?)\\s\\]\n"],
       "depNameTemplate": "nodejs/node",
       "datasourceTemplate": "github-tags"
