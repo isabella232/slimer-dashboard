@@ -1,5 +1,13 @@
 {
   "extends": [
-    "config:base"
+    "@tryghost:base"
+  ],
+  "regexManagers": [
+    {
+      "fileMatch": ["^.github/workflows/*.yml"],
+      "matchStrings": ["\\s+node:\\s\\[\\s(?<currentValue>.*?)\\s\\]\n"],
+      "depName": "nodejs/node",
+      "datasource": "github-tags"
+    }
   ]
 }
