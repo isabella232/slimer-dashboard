@@ -9,7 +9,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint src --ext .js --cache",
+    "posttest": "yarn lint",
+    "preship": "yarn lint",
+    "ship": "STATUS=$(git status --porcelain); echo $STATUS; if [ -z \"$STATUS\" ]; then git push ${GHOST_UPSTREAM:-upstream} main --follow-tags; fi"
   },
   "files": [
     "public",
@@ -28,9 +32,21 @@
     "react-scripts": "4.0.1",
     "unfetch": "^4.1.0"
   },
-  "eslintConfig": {
-    "extends": "react-app"
+  "devDependencies": {
+    "eslint-plugin-ghost": "2.7.0"
   },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "plugin:ghost/browser"
+    ],
+    "plugins": [
+      "ghost"
+    ]
+  },
+  "eslintIgnore": [
+    "src/serviceWorker.js"
+  ],
   "browserslist": {
     "production": [
       ">0.2%",

@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-import "./Filter.css";
+import './Filter.css';
 
 class Filter extends React.Component {
     constructor(props) {
@@ -18,13 +18,13 @@ class Filter extends React.Component {
             <>
                 <label>{this.props.name}:</label>&nbsp;
                 <select name={this.props.name.toLowerCase()} defaultValue={this.props.value} onChange={this.handleChange}>
-                {Object.keys(this.props.options).map(key => (
-                    <option key={key} value={options[key]}>{options[key]}</option>
-                ))}
+                    {Object.keys(this.props.options).map(key => (
+                        <option key={key} value={options[key]}>{options[key]}</option>
+                    ))}
                 </select>
             </>
-            );
-        }
+        );
     }
+}
 
 export default Filter;
