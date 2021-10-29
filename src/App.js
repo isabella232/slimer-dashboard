@@ -14,7 +14,7 @@ import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
 import Avatar from "./Avatar";
 import Repositories from "./Repositories";
 
-import Filter from "./components/Filter";
+// import Filter from "./components/Filter";
 
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID
 const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;

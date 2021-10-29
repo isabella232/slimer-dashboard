@@ -1,6 +1,6 @@
 import React from "react";
 
-import Octicon, {GitPullRequest, IssueOpened, Repo, RepoForked, Lock, Tools, Play, Versions} from '@githubprimer/octicons-react'
+import Octicon, {Repo, RepoForked, Lock, Versions} from '@githubprimer/octicons-react'
 
 import "./Repositories.css";
 
