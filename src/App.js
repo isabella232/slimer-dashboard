@@ -7,10 +7,9 @@ import {
   Header
 } from "gitstar-components";
 
-import Octicon, {Bookmark} from '@githubprimer/octicons-react'
+import Octicon, { Bookmark } from '@githubprimer/octicons-react'
 
-import ApolloClient from "apollo-boost";
-import { ApolloProvider } from "react-apollo";
+import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
 
 import Avatar from "./Avatar";
 import Repositories from "./Repositories";
@@ -22,16 +21,10 @@ const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
 const AUTH_API_URI = process.env.REACT_APP_AUTH_API_URI;
 
 const client = new ApolloClient({
-  uri: "https://api.github.com/graphql",
-  request: operation => {
-    const token = localStorage.getItem("github_token");
-    if (token) {
-      operation.setContext({
-        headers: {
-          authorization: `Bearer ${token}`
-        }
-      });
-    }
+  cache: new InMemoryCache(),
+    uri: "https://api.github.com/graphql",
+    headers: {
+        authorization: `Bearer ${localStorage.getItem("github_token")}`
   }
 });
 
@@ -118,8 +111,8 @@ class App extends Component {
           <span className="logotype">Slimer Dashboard</span>
         </div>
         <div>
-          <Filter name="Public" options={ACCESS} value={access} onFilterChange={this.handleAccessChange}  />&nbsp;
-          <Filter name="Origin" options={ORIGIN} value={origin} onFilterChange={this.handleOriginChange} />
+          {/* <Filter name="Public" options={ACCESS} value={access} onFilterChange={this.handleAccessChange}  />&nbsp;
+          <Filter name="Origin" options={ORIGIN} value={origin} onFilterChange={this.handleOriginChange} /> */}
           {/* <Filter name="Type" options={TYPE} value={type} onFilterChange={this.handleTypeChange}  /> */}
         </div>
         <Avatar

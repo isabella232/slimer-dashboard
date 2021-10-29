@@ -1,7 +1,6 @@
 import React from "react";
 import { Avatar } from "gitstar-components";
-import { gql } from "apollo-boost";
-import { Query } from "react-apollo";
+import { useQuery, gql } from '@apollo/client';
 
 const GET_AVATAR = gql`
   query {
@@ -11,24 +10,20 @@ const GET_AVATAR = gql`
   }
 `;
 
-class UserAvatar extends React.Component {
-  render() {
-    if (!localStorage.getItem("github_token")) {
-      return <Avatar {...this.props} />;
-    }
-    return (
-      <Query query={GET_AVATAR}>
-        {({ loading, error, data }) => {
-          if (loading) return <Avatar {...this.props} />;
-          if (error) {
-            return <div>:(</div>;
-          }
+function UserAvatar() {
+    const { loading, error, data } = useQuery(GET_AVATAR);
 
-          return <Avatar url={data.viewer.avatarUrl} {...this.props} />;
-        }}
-      </Query>
-    );
-  }
+    if (!localStorage.getItem("github_token")) {
+      return <Avatar {...data} />;
+    }
+
+    if (loading) return <Avatar {...data} />;
+    if (error) {
+        console.log(error)
+        return <div>Error :(</div>;
+    }
+
+    return <Avatar url={data.viewer.avatarUrl} {...data} />;
 }
 
 export default UserAvatar;

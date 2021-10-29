@@ -13,7 +13,7 @@ export const Counts = ({ repositories = [] }) => {
 
 export const Repositories = ({ repositories = [] }) => (
   <>
-  <Counts repositories={repositories} />
+  {/* <Counts repositories={repositories} /> */}
   <ul className="repository-list">
     {repositories.map(
         ({ name, id, descriptionHTML, url, pullRequests, renovate, issues, isFork, isPrivate, isMono, cd, node }) => {
@@ -27,13 +27,7 @@ export const Repositories = ({ repositories = [] }) => (
                                 {isMono ? <Octicon icon={Versions} size="medium" verticalAlign="middle" className="indicator" /> : null}
                             </h4>
                             <p className="description" dangerouslySetInnerHTML={{ __html: descriptionHTML }} />
-                            <p>Node: {node}</p>
-                            <div className="stats">
-                                <span className="stat"><Octicon icon={IssueOpened} />{issues.totalCount}</span>
-                                <span className="stat"><Octicon icon={GitPullRequest} />{pullRequests.totalCount}</span>
-                                <span className={renovate.notConfigured ? 'stat ok' : 'stat not-ok'}><Octicon icon={Tools} />{renovate.totalCount}</span>
-                                <span className={cd.travis ? 'stat not-ok' : 'stat ok'}>{cd.travis || cd.github ? <Octicon icon={Play} /> : null}</span>
-                            </div>
+
                         </div>
                     </div>
                 </li>
