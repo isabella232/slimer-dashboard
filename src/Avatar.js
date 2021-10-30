@@ -3,7 +3,7 @@ import {Avatar} from 'gitstar-components';
 import {useQuery, gql} from '@apollo/client';
 
 const GET_AVATAR = gql`
-  query {
+  query getAvatar {
     viewer {
       avatarUrl
     }

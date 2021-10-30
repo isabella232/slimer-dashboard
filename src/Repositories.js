@@ -1,6 +1,4 @@
 import React from 'react';
-// import { gql } from "apollo-boost";
-// import { graphql, compose } from "react-apollo";
 
 import {useQuery, gql} from '@apollo/client';
 
@@ -63,10 +61,10 @@ export const REPOSITORY_TILE_DATA = gql`
 `;
 
 const GET_REPOSITORIES = gql`
-  query($after: String) {
+  query GetRepositories($after: String) {
     search(
       type: REPOSITORY
-      query: "org:TryGhost archived:false fork:true"
+      query: "org:TryGhost archived:false fork:false"
       first: ${DEFAULT_REPOS}
       after: $after
     ) {
@@ -155,7 +153,11 @@ const getRepositories = (repositories) => {
 };
 
 const RepositoriesWrapper = () => {
-    const {loading, error, data, fetchMore} = useQuery(GET_REPOSITORIES);
+    const {loading, error, data, fetchMore} = useQuery(GET_REPOSITORIES, {
+        variables: {
+            after: null
+        }
+    });
 
     // const [isLoadingMore, setIsLoadingMore] = useState(false);
     // const loadMore = async () => {
