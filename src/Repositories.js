@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {useQuery, gql} from '@apollo/client';
 
@@ -159,40 +159,35 @@ const RepositoriesWrapper = () => {
         }
     });
 
-    // const [isLoadingMore, setIsLoadingMore] = useState(false);
-    // const loadMore = async () => {
-    //     setIsLoadingMore(true);
-    //     await fetchMore({
-    //       variables: {
-    //         after: data.search.pageInfo.endCursor,
-    //       },
-    //     });
-    //     setIsLoadingMore(false);
-    //   }
+    const [isLoadingMore, setIsLoadingMore] = useState(false);
 
-    const loadMore = () => fetchMore({
-        variables: {after: data.search.pageInfo.endCursor},
-        updateQuery: (previousResult = {}, {fetchMoreResult = {}}) => {
-            if (fetchMoreResult.search.nodes.length === 0) {
-                return previousResult;
-            }
-
-            const previousSearch = previousResult.search || {};
-            const currentSearch = fetchMoreResult.search || {};
-            const previousNodes = previousSearch.nodes || [];
-            const currentNodes = currentSearch.nodes || [];
-            // Specify how to merge new results with previous results
-
-            return {
-                ...previousResult,
-                search: {
-                    ...previousSearch,
-                    nodes: [...previousNodes, ...currentNodes],
-                    pageInfo: currentSearch.pageInfo
+    const loadMore = async () => {
+        setIsLoadingMore(true);
+        await fetchMore({
+            variables: {after: data.search.pageInfo.endCursor},
+            updateQuery: (previousResult = {}, {fetchMoreResult = {}}) => {
+                if (fetchMoreResult.search.nodes.length === 0) {
+                    return previousResult;
                 }
-            };
-        }
-    });
+
+                const previousSearch = previousResult.search || {};
+                const currentSearch = fetchMoreResult.search || {};
+                const previousNodes = previousSearch.nodes || [];
+                const currentNodes = currentSearch.nodes || [];
+                // Specify how to merge new results with previous results
+
+                return {
+                    ...previousResult,
+                    search: {
+                        ...previousSearch,
+                        nodes: [...previousNodes, ...currentNodes],
+                        pageInfo: currentSearch.pageInfo
+                    }
+                };
+            }
+        });
+        setIsLoadingMore(false);
+    };
 
     if (error) {
         return (
@@ -211,18 +206,19 @@ const RepositoriesWrapper = () => {
             </Wrapper>
         );
     }
-    // Show both repositories and placeholder when user clicks show more
-    if (loading) {
+
+    if (loading || isLoadingMore) {
+        // Show both repositories and placeholder when user clicks show more
         return (
             <Wrapper>
                 <Repositories
                     repositories={getRepositories(data.search.nodes)}
                 />
                 <RepositoriesPlaceholder />
-                <LoadMoreButton loadMore={loadMore} />
             </Wrapper>
         );
     }
+
     return (
         <Wrapper>
             <Repositories
