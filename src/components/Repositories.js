@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Octicon, {Repo, RepoForked, Lock, Versions} from '@githubprimer/octicons-react';
+import Octicon, {Repo, RepoForked, GitPullRequest, IssueOpened, Lock, Versions} from '@githubprimer/octicons-react';
 
 import './Repositories.css';
 
@@ -27,7 +27,10 @@ export const Repositories = ({repositories = []}) => (
                                         {isMono ? <Octicon icon={Versions} size="medium" verticalAlign="middle" className="indicator" /> : null}
                                     </h4>
                                     <p className="description" dangerouslySetInnerHTML={{__html: descriptionHTML}} />
-
+                                    <div className="stats">
+                                        <span className="stat"><Octicon icon={IssueOpened} />{issues.totalCount}</span>
+                                        <span className="stat"><Octicon icon={GitPullRequest} />{pullRequests.totalCount}</span>
+                                    </div>
                                 </div>
                             </div>
                         </li>
