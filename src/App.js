@@ -21,7 +21,31 @@ const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
 const AUTH_API_URI = process.env.REACT_APP_AUTH_API_URI;
 
 const client = new ApolloClient({
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({
+        typePolicies: {
+            Query: {
+                fields: {
+                    search: {
+                        keyArgs: [],
+                        merge(existing = {}, incoming) {
+                            const existingNodes = existing.nodes || [];
+                            const incomingNodes = incoming.nodes || [];
+
+                            return {
+                                ...existing,
+                                ...incoming,
+                                nodes: [...existingNodes, ...incomingNodes],
+                                pageInfo: incoming.pageInfo
+                            };
+                        }
+                    }
+                }
+            },
+            Repository: {
+                keyFields: ['nameWithOwner']
+            }
+        }
+    }),
     uri: 'https://api.github.com/graphql',
     headers: {
         authorization: `Bearer ${localStorage.getItem('github_token')}`

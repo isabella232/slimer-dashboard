@@ -164,27 +164,7 @@ const RepositoriesWrapper = () => {
     const loadMore = async () => {
         setIsLoadingMore(true);
         await fetchMore({
-            variables: {after: data.search.pageInfo.endCursor},
-            updateQuery: (previousResult = {}, {fetchMoreResult = {}}) => {
-                if (fetchMoreResult.search.nodes.length === 0) {
-                    return previousResult;
-                }
-
-                const previousSearch = previousResult.search || {};
-                const currentSearch = fetchMoreResult.search || {};
-                const previousNodes = previousSearch.nodes || [];
-                const currentNodes = currentSearch.nodes || [];
-                // Specify how to merge new results with previous results
-
-                return {
-                    ...previousResult,
-                    search: {
-                        ...previousSearch,
-                        nodes: [...previousNodes, ...currentNodes],
-                        pageInfo: currentSearch.pageInfo
-                    }
-                };
-            }
+            variables: {after: data.search.pageInfo.endCursor}
         });
         setIsLoadingMore(false);
     };
