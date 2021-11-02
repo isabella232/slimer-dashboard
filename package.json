@@ -42,7 +42,10 @@
     ],
     "plugins": [
       "ghost"
-    ]
+    ],
+    "rules": {
+      "no-console": "warn"
+    }
   },
   "eslintIgnore": [
     "src/serviceWorker.js"
