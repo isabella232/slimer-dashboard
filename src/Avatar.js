@@ -22,7 +22,7 @@ function UserAvatar() {
     }
 
     if (error) {
-        return <div>Error :(</div>;
+        return <div>Error :( {error.message}</div>;
     }
 
     return <Avatar url={data.viewer.avatarUrl} {...data} />;
