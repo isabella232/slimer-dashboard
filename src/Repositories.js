@@ -27,36 +27,8 @@ export const REPOSITORY_TILE_DATA = gql`
     issues(states: OPEN) {
       totalCount
     }
-    stargazers {
-      totalCount
-    }
     isFork
     isPrivate
-    packageJSON: object(expression: "master:package.json") {
-      ... on Blob {
-        text
-      }
-    }
-    lernaJSON: object(expression: "master:lerna.json") {
-      ... on Blob {
-        text
-      }
-    }
-    travisYaml: object(expression: "master:.travis.yml") {
-      ... on Blob {
-        text
-      }
-    }
-    themeYaml: object(expression: "master:.github/workflows/deploy-theme.yml") {
-      ... on Blob{
-        text
-      }
-    }
-    testYaml: object(expression: "master:.github/workflows/test.yml") {
-      ... on Blob{
-        text
-      }
-    }
   }
 `;
 
