@@ -4,19 +4,11 @@ import Octicon, {Repo, RepoForked, GitPullRequest, IssueOpened, Lock, Versions} 
 
 import './Repositories.css';
 
-export const Counts = ({repositories = []}) => {
-    let travis = repositories.filter(repo => repo.cd.travis).length;
-    let missingGitHub = repositories.filter(repo => !repo.cd.github).length;
-    let missingRenovate = repositories.filter(repo => repo.renovate.notConfigured).length;
-    return (<p>Total Repos: {repositories.length}, Missing Renovate: {missingRenovate}, Missing GitHub Actions: {missingGitHub}, Has Travis: {travis}.</p>);
-};
-
 export const Repositories = ({repositories = []}) => (
     <>
-        {/* <Counts repositories={repositories} /> */}
         <ul className="repository-list">
             {repositories.map(
-                ({name, id, descriptionHTML, url, pullRequests, renovate, issues, isFork, isPrivate, isMono, cd, node}) => {
+                ({name, id, descriptionHTML, url, pullRequests, issues, isFork, isPrivate, isMono}) => {
                     return (
                         <li key={id} className="repository-item">
                             <div className="box">

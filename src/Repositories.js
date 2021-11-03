@@ -53,77 +53,6 @@ const GET_REPOSITORIES = gql`
   ${REPOSITORY_TILE_DATA}
 `;
 
-const getRepositories = (repositories) => {
-    if (!repositories) {
-        return repositories;
-    }
-
-    //   repositories = repositories.filter(repo => {
-    //       let access = false;
-    //       let origin = false;
-
-    //       if (this.props.access === 'all') {
-    //           access = true;
-    //       } else if (this.props.access === 'private' && repo.isPrivate) {
-    //           access = true;
-    //       } else if (this.props.access === 'public' && !repo.isPrivate) {
-    //           access = true;
-    //       }
-
-    //       if (this.props.origin === 'all') {
-    //           origin = true;
-    //       } else if (this.props.origin === 'fork' && repo.isFork) {
-    //           origin = true;
-    //       } else if (this.props.origin === 'source' && !repo.isFork) {
-    //           origin = true;
-    //       }
-
-    //       return access && origin;
-    //   });
-
-    repositories = repositories.map((repo) => {
-    //   repo.renovate = {};
-    //   repo.renovate.totalCount = repo.pullRequests.nodes.filter(node => node.headRefName.startsWith('renovate/')).length;
-    //   repo.renovate.notConfigured = !repo.pullRequests.nodes.some(node => node.headRefName.startsWith('renovate/config'));
-
-        //   repo.cd = {};
-        //   if (repo.travisYaml) {
-        //       repo.cd.travis = true;
-        //       repo.cd.className = 'stat fail';
-        //   } else if (repo.testYaml || repo.themeYaml) {
-        //       repo.cd.github = true;
-
-        //   }
-
-        //   if (repo.testYaml) {
-        //       let nodeRes = repo.testYaml.text.match(/node:\s?\[(.*?)]/);
-
-        //       if (nodeRes && nodeRes[1]) {
-        //           repo.node = nodeRes[1].replace(/['",]/gmi, '');
-        //       }
-        //   }
-        //   if (repo.travisYaml) {
-        //       let nodeRes = repo.travisYaml.text.match(/node_js:([^a-z]+)/);
-
-        //       if (nodeRes && nodeRes[1]) {
-        //           repo.node = nodeRes[1].replace(/['"-]/gmi, '');
-        //       }
-        //   }
-
-        //   if (repo.lernaJSON) {
-        //       repo.isMono = true;
-        //   }
-
-        return repo;
-    });
-
-    // repositories = repositories.sort((a, b) => {
-    //   return b.pullRequests.totalCount - a.pullRequests.totalCount;
-    // });
-
-    return repositories;
-};
-
 const RepositoriesWrapper = () => {
     const {loading, error, data, fetchMore} = useQuery(GET_REPOSITORIES, {
         variables: {
@@ -164,7 +93,7 @@ const RepositoriesWrapper = () => {
         return (
             <Wrapper>
                 <Repositories
-                    repositories={getRepositories(data.search.nodes)}
+                    repositories={data.search.nodes}
                 />
                 <RepositoriesPlaceholder />
             </Wrapper>
@@ -174,7 +103,7 @@ const RepositoriesWrapper = () => {
     return (
         <Wrapper>
             <Repositories
-                repositories={getRepositories(data.search.nodes)}
+                repositories={data.search.nodes}
             />
             <LoadMoreButton loadMore={loadMore} />
 

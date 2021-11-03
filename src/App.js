@@ -14,8 +14,6 @@ import {ApolloProvider, ApolloClient, InMemoryCache} from '@apollo/client';
 import Avatar from './Avatar';
 import Repositories from './Repositories';
 
-// import Filter from "./components/Filter";
-
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
 const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
 const AUTH_API_URI = process.env.REACT_APP_AUTH_API_URI;
@@ -52,48 +50,15 @@ const client = new ApolloClient({
     }
 });
 
-const ORIGIN = {
-    DEFAULT: 'all',
-    FORK: 'fork',
-    SOURCE: 'source'
-};
-
-const ACCESS = {
-    DEFAULT: 'all',
-    PRIVATE: 'private',
-    PUBLIC: 'public'
-};
-
-const TYPE = {
-    DEFAULT: 'all',
-    MONO: 'monorepo',
-    THEME: 'theme'
-};
-
 class App extends Component {
     constructor(props) {
         super(props);
 
-        this.handleOriginChange = this.handleOriginChange.bind(this);
-        this.handleAccessChange = this.handleAccessChange.bind(this);
-        this.handleTypeChange = this.handleTypeChange.bind(this);
-
         this.state = {
-            status: STATUS.INITIAL,
-            access: ACCESS.DEFAULT,
-            origin: ORIGIN.SOURCE,
-            type: TYPE.DEFAULT
+            status: STATUS.INITIAL
         };
     }
-    handleOriginChange(value) {
-        this.setState({origin: value});
-    }
-    handleAccessChange(value) {
-        this.setState({access: value});
-    }
-    handleTypeChange(value) {
-        this.setState({type: value});
-    }
+
     componentDidMount() {
         const storedToken = localStorage.getItem('github_token');
         if (storedToken) {
@@ -121,10 +86,6 @@ class App extends Component {
         }
     }
     render() {
-        const origin = this.state.origin;
-        const access = this.state.access;
-        const type = this.state.type;
-
         return (
             <ApolloProvider client={client}>
                 <Container>
@@ -132,11 +93,6 @@ class App extends Component {
                         <div style={{display: 'flex', alignItems: 'center'}}>
                             <Octicon icon={Bookmark} size='medium' />
                             <span className="logotype">Slimer Dashboard</span>
-                        </div>
-                        <div>
-                            {/* <Filter name="Public" options={ACCESS} value={access} onFilterChange={this.handleAccessChange}  />&nbsp;
-          <Filter name="Origin" options={ORIGIN} value={origin} onFilterChange={this.handleOriginChange} /> */}
-                            {/* <Filter name="Type" options={TYPE} value={type} onFilterChange={this.handleTypeChange}  /> */}
                         </div>
                         <Avatar
                             style={{
@@ -164,7 +120,7 @@ class App extends Component {
                             }
                         }}
                     />
-                    {this.state.status === STATUS.AUTHENTICATED && <Repositories origin={origin} access={access} type={type} />}
+                    {this.state.status === STATUS.AUTHENTICATED && <Repositories />}
                 </Container>
             </ApolloProvider>
         );
