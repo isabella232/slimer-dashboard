@@ -21,6 +21,12 @@ export const REPOSITORY_TILE_DATA = gql`
     pullRequests(states: OPEN, first: 100) {
       totalCount
       nodes {
+        isRenovate @client
+        author {
+          login
+        }
+        title
+        number
         headRefName
       }
     }

@@ -35,6 +35,16 @@ const cache = new InMemoryCache({
         },
         Repository: {
             keyFields: ['nameWithOwner']
+        },
+        PullRequest: {
+            keyFields: ['number'],
+            fields: {
+                isRenovate: {
+                    read(_, {readField}) {
+                        return readField('author').login === 'renovate' ? true : false;
+                    }
+                }
+            }
         }
     }
 });
