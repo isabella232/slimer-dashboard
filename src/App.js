@@ -29,6 +29,28 @@ const cache = new InMemoryCache({
                             nodes: [...existingNodes, ...incomingNodes],
                             pageInfo: incoming.pageInfo
                         };
+                    },
+                    read(existing, {readField}) {
+                        if (!existing || !existing.nodes) {
+                            return existing;
+                        }
+
+                        // @TODO: figure out how to do sorting at the cache level
+                        // if (existing.nodes.length > 0) {
+                        //     const sortedNodes = [...existing.nodes].sort((a, b) => {
+                        //         console.log(readField('name', a));
+                        //         console.log(readField('pullRequests', a));
+                        //         // return b.pullRequests.totalCount - a.pullRequests.totalCount;
+                        //         return 0;
+                        //     });
+
+                        //     return {
+                        //         ...existing,
+                        //         nodes: sortedNodes
+                        //     };
+                        // }
+
+                        return existing;
                     }
                 }
             }
