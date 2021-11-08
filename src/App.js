@@ -37,7 +37,7 @@ const cache = new InMemoryCache({
             keyFields: ['nameWithOwner']
         },
         PullRequest: {
-            keyFields: ['number'],
+            keyFields: ['id'],
             fields: {
                 isRenovate: {
                     read(_, {readField}) {
@@ -60,8 +60,6 @@ const App = () => {
 
     useEffect(() => {
         async function init() {
-            console.log('got token', token);
-
             setClient(new ApolloClient({
                 cache,
                 uri: 'https://api.github.com/graphql',
