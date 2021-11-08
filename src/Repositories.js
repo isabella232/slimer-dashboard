@@ -58,6 +58,18 @@ const GET_REPOSITORIES = gql`
   ${REPOSITORY_TILE_DATA}
 `;
 
+const getRepositories = (repositories) => {
+    if (!repositories) {
+        return repositories;
+    }
+
+    repositories = [...repositories].sort((a, b) => {
+        return b.pullRequests.totalCount - a.pullRequests.totalCount;
+    });
+
+    return repositories;
+};
+
 const RepositoriesWrapper = () => {
     const {loading, error, data, fetchMore} = useQuery(GET_REPOSITORIES, {
         variables: {
@@ -98,7 +110,7 @@ const RepositoriesWrapper = () => {
         return (
             <Wrapper>
                 <Repositories
-                    repositories={data.search.nodes}
+                    repositories={getRepositories(data.search.nodes)}
                 />
                 <RepositoriesPlaceholder />
             </Wrapper>
@@ -108,7 +120,7 @@ const RepositoriesWrapper = () => {
     return (
         <Wrapper>
             <Repositories
-                repositories={data.search.nodes}
+                repositories={getRepositories(data.search.nodes)}
             />
             <LoadMoreButton loadMore={loadMore} />
 
