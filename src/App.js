@@ -35,20 +35,19 @@ const cache = new InMemoryCache({
                             return existing;
                         }
 
-                        // @TODO: figure out how to do sorting at the cache level
-                        // if (existing.nodes.length > 0) {
-                        //     const sortedNodes = [...existing.nodes].sort((a, b) => {
-                        //         console.log(readField('name', a));
-                        //         console.log(readField('pullRequests', a));
-                        //         // return b.pullRequests.totalCount - a.pullRequests.totalCount;
-                        //         return 0;
-                        //     });
+                        if (existing.nodes.length > 0) {
+                            const sortedNodes = [...existing.nodes].sort((a, b) => {
+                                const totalCountA = readField({from: a, fieldName: 'pullRequests', args: {first: 100, states: 'OPEN'}}).totalCount;
+                                const totalCountB = readField({from: b, fieldName: 'pullRequests', args: {first: 100, states: 'OPEN'}}).totalCount;
 
-                        //     return {
-                        //         ...existing,
-                        //         nodes: sortedNodes
-                        //     };
-                        // }
+                                return totalCountB - totalCountA;
+                            });
+
+                            return {
+                                ...existing,
+                                nodes: sortedNodes
+                            };
+                        }
 
                         return existing;
                     }

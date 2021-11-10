@@ -63,9 +63,7 @@ const getRepositories = (repositories) => {
         return repositories;
     }
 
-    repositories = [...repositories].sort((a, b) => {
-        return b.pullRequests.totalCount - a.pullRequests.totalCount;
-    });
+    // @TODO filtering
 
     return repositories;
 };
