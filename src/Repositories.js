@@ -11,6 +11,21 @@ import Wrapper from './components/Wrapper';
 
 const DEFAULT_REPOS = 20;
 
+export const PULL_REQUEST_LIST = gql`
+    fragment PullRequestList on PullRequestConnection {
+        totalCount
+        nodes {
+            id: databaseId,
+            isRenovate @client
+            headRefName
+            author {
+            login
+            }
+            url
+        }
+    }
+`;
+
 export const REPOSITORY_TILE_DATA = gql`
   fragment RepositoryTile on Repository {
     id
@@ -18,16 +33,11 @@ export const REPOSITORY_TILE_DATA = gql`
     name
     url
     descriptionHTML
+    renovateRequests @client {
+        ...PullRequestList
+    }
     pullRequests(states: OPEN, first: 100) {
-      totalCount
-      nodes {
-        id: databaseId,
-        isRenovate @client
-        author {
-          login
-        }
-        url
-      }
+       ...PullRequestList
     }
     issues(states: OPEN) {
       totalCount
@@ -35,6 +45,7 @@ export const REPOSITORY_TILE_DATA = gql`
     isFork
     isPrivate
   }
+  ${PULL_REQUEST_LIST}
 `;
 
 const GET_REPOSITORIES = gql`

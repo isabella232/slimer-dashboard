@@ -55,7 +55,23 @@ const cache = new InMemoryCache({
             }
         },
         Repository: {
-            keyFields: ['nameWithOwner']
+            keyFields: ['nameWithOwner'],
+            fields: {
+                renovateRequests: {
+                    read(_, {readField}) {
+                        const prs = readField({fieldName: 'pullRequests', args: {first: 100, states: 'OPEN'}});
+
+                        const nodes = prs.nodes.filter(node => readField('isRenovate', node));
+                        const totalCount = nodes.length;
+
+                        return {
+                            ...prs,
+                            totalCount,
+                            nodes
+                        };
+                    }
+                }
+            }
         },
         PullRequest: {
             keyFields: ['id'],
