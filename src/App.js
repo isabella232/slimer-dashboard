@@ -9,7 +9,7 @@ import Octicon, {Bookmark} from '@githubprimer/octicons-react';
 import {ApolloProvider, ApolloClient, InMemoryCache} from '@apollo/client';
 
 import Avatar from './Avatar';
-import Repositories from './Repositories';
+import Repos from './Repos';
 
 import Login from './components/Login';
 
@@ -130,7 +130,7 @@ const App = () => {
                     </div>
                 </Header>
 
-                <Repositories />
+                <Repos />
             </Container>
         </ApolloProvider>
     );
