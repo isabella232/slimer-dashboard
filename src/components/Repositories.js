@@ -6,25 +6,23 @@ import './Repositories.css';
 
 export const Repositories = ({repositories = []}) => (
     <>
-        <ul className="repository-list">
+        <ul className="card-list">
             {repositories.map(
-                ({name, id, descriptionHTML, url, pullRequests, renovateRequests, issues, isFork, isPrivate, isMono}) => {
+                ({name, id, descriptionHTML, url, hasIssuesEnabled, pullRequests, renovateRequests, issues, isFork, isPrivate, isMono}) => {
                     return (
-                        <li key={id} className="repository-item">
-                            <div className="box">
-                                <div className="content">
-                                    <h4>
-                                        <Octicon icon={isFork ? RepoForked : (isPrivate ? Lock : Repo)} />
-                                        <a href={url}>{name}</a>
-                                        {isMono ? <Octicon icon={Versions} size="medium" verticalAlign="middle" className="indicator" /> : null}
-                                    </h4>
-                                    <p className="description" dangerouslySetInnerHTML={{__html: descriptionHTML}} />
-                                    <div className="stats">
-                                        <span className="stat"><Octicon icon={IssueOpened} />{issues.totalCount}</span>
-                                        <span className="stat"><Octicon icon={GitPullRequest} />{pullRequests.totalCount}</span>
-                                        <span className="stat"><Octicon icon={Tools} />{renovateRequests.totalCount}</span>
-                                    </div>
-                                </div>
+                        <li key={id} className="card">
+                            <h4 className="title">
+                                <Octicon icon={isFork ? RepoForked : (isPrivate ? Lock : Repo)} />
+                                <a href={url}>{name}</a>
+                                {isMono ? <Octicon icon={Versions} size="medium" verticalAlign="middle" className="indicator" /> : null}
+                            </h4>
+                            <div className="desc" dangerouslySetInnerHTML={{__html: descriptionHTML}} />
+                            <div className="stats-box left">
+                                {hasIssuesEnabled ? <span className="stat"><Octicon icon={IssueOpened} />{issues.totalCount}</span> : null}
+                            </div>
+                            <div className="stats-box right">
+                                <span className="stat"><Octicon icon={GitPullRequest} />{pullRequests.totalCount}</span>
+                                <span className="stat"><Octicon icon={Tools} />{renovateRequests.totalCount}</span>
                             </div>
                         </li>
                     );
@@ -35,18 +33,15 @@ export const Repositories = ({repositories = []}) => (
 );
 
 export const RepositoriesPlaceholder = () => (
-    <ul className="repository-list">
+    <ul className="card-list">
         {Array(20)
             .fill('')
             .map((line, index) => (
-                <li key={index} className="repository-item">
-                    <div className="box">
-                        <div className="content">
-                            <div className="name-placeholder" />
-                            <div className="text-placeholder" />
-                            <div className="text-placeholder" />
-                        </div>
-                    </div>
+                <li key={index} className="card">
+                    <div className="title name-placeholder" />
+                    <div className="desc text-placeholder" />
+                    <div className="left text-placeholder" />
+                    <div className="right text-placeholder" />
                 </li>
             ))}
     </ul>

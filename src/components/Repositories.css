@@ -33,57 +33,60 @@
   }
 }
 
-.repository-list {
-  display: flex;
-  flex-wrap: wrap;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+.card-list {
+  display: grid;
+  grid-template-columns: 20% 20% 20% 20% 20%;
+  grid-column-gap: 16px;
+  grid-row-gap: 16px;
 }
 
-.repository-item {
-  display: flex;
-  align-content: stretch;
-  width: 20%;
-  padding: 0 8px;
-  margin-bottom: 16px;
-}
-
-.repository-item .box {
+.card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-row-gap: 2px;
   background-color: #fff;
   border: 1px solid #d1d5da;
   border-radius: 3px;
-  display: flex;
   padding: 16px;
-  width: 100%;
+  align-content: stretch;
 }
 
-.repository-item .content {
-  display: flex;
-  width: 100%;
-  flex-direction: column;
+.title,
+.desc {
+  grid-column: 1 / 3;
 }
 
-.repository-item .content p {
-  flex: 1 0 auto;
+.left {
+  grid-column: 1 / 2;
+}
+
+.right {
+  grid-column: 2 / 3;
+  justify-self: right;
+}
+
+
+.desc {
   font-size: 12px;
+  height: 2.4rem;
+  overflow: hidden;
+  margin-bottom: 10px;
 }
 
-.repository-item .content .description {
-    height: 2.4rem;
-    overflow: hidden;
+.octicon {
+  margin-right: 8px;
 }
 
-.repository-item .stats {
-  margin-bottom: 0!important;
+.left .stat {
+    padding-right: 10px;
 }
 
-.repository-item .stats .octicon {
-  margin-right: 4px;
+.stat .octicon {
+    margin-right: 3px;
 }
 
-.repository-item .stat {
-  padding-right: 10px;
+.right .stat {
+    padding-left: 10px;
 }
 
 .indicator {
@@ -93,9 +96,6 @@
     height: 28px;
 }
 
-.octicon {
-  margin-right: 8px;
-}
 .not-ok {
   color: rgba(247, 7, 7, 0.7)
 }

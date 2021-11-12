@@ -33,6 +33,7 @@ export const REPOSITORY_TILE_DATA = gql`
     name
     url
     descriptionHTML
+    hasIssuesEnabled
     renovateRequests @client {
         ...PullRequestList
     }
