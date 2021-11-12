@@ -63,7 +63,7 @@ const cache = new InMemoryCache({
             }
         },
         Repository: {
-            keyFields: ['nameWithOwner'],
+            keyFields: ['name'],
             fields: {
                 renovateRequests: {
                     read(_, {readField}) {
@@ -82,10 +82,10 @@ const cache = new InMemoryCache({
             }
         },
         Issue: {
-            keyFields: ['repository', ['nameWithOwner'], 'number']
+            keyFields: ['repository', ['name'], 'number']
         },
         PullRequest: {
-            keyFields: ['repository', ['nameWithOwner'], 'number'],
+            keyFields: ['repository', ['name'], 'number'],
             fields: {
                 isRenovate: {
                     read(_, {readField}) {

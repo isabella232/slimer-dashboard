@@ -24,7 +24,7 @@ export const PULL_REQUEST_LIST = gql`
             }
             url
             repository {
-                nameWithOwner
+                name
            }
         }
     }
@@ -33,7 +33,6 @@ export const PULL_REQUEST_LIST = gql`
 export const REPOSITORY_TILE_DATA = gql`
   fragment RepositoryTile on Repository {
     id
-    nameWithOwner
     name
     url
     descriptionHTML

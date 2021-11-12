@@ -14,7 +14,7 @@ fragment IssueTile on Issue {
    number
    url
    repository {
-        nameWithOwner
+        name
    }
    labels (first:10) {
      nodes {

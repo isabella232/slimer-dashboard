@@ -11,7 +11,7 @@ export const Issues = ({issues = []}) => (
                 return (
                     <li key={id} className="card">
                         <h4 className="title">
-                            <a href={url}><IssueOpenedIcon size={16} />{repository.nameWithOwner}#{number}</a> {labels.nodes.map(({name, color}) => {
+                            <a href={url}><IssueOpenedIcon size={16} />{repository.name}#{number}</a> {labels.nodes.map(({name, color}) => {
                                 return <Label color={color}>{name}</Label>;
                             })}
                         </h4>
