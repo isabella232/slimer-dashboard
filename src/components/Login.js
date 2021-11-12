@@ -37,7 +37,7 @@ const Login = ({onSuccess}) => {
     return (
         <div className="login-wrapper">
             <a
-                href={`https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&scope=user,repo&redirect_uri=${REDIRECT_URI}`}
+                href={`https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&scope=user,repo,read:org&redirect_uri=${REDIRECT_URI}`}
             >
                 <span>Sign in with GitHub <MarkGithubIcon size={22} /></span>
             </a>
