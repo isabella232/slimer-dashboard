@@ -16,6 +16,7 @@ export const PULL_REQUEST_LIST = gql`
         totalCount
         nodes {
             id: databaseId,
+            number
             isRenovate @client
             headRefName
             author {
