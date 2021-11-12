@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Octicon, {Repo, RepoForked, GitPullRequest, Tools, IssueOpened, Lock, Versions} from '@githubprimer/octicons-react';
+import {RepoIcon, RepoForkedIcon, LockIcon, IssueOpenedIcon, GitPullRequestIcon, ToolsIcon, VersionsIcon} from '@primer/octicons-react';
 
 import './List.css';
 
@@ -11,17 +11,17 @@ export const Repositories = ({repositories = []}) => (
                 return (
                     <li key={id} className="card">
                         <h4 className="title">
-                            <Octicon icon={isFork ? RepoForked : (isPrivate ? Lock : Repo)} />
+                            {isFork ? <RepoForkedIcon size={16} /> : (isPrivate ? <LockIcon size={16} /> : <RepoIcon size={16} />)}
                             <a href={url}>{name}</a>
-                            {isMono ? <Octicon icon={Versions} size="medium" verticalAlign="middle" className="indicator" /> : null}
+                            {isMono ? <VersionsIcon size={16} className="indicator" /> : null}
                         </h4>
                         <div className="desc" dangerouslySetInnerHTML={{__html: descriptionHTML}} />
                         <div className="stats-box left">
-                            {hasIssuesEnabled ? <span className="stat"><Octicon icon={IssueOpened} />{issues.totalCount}</span> : null}
+                            {hasIssuesEnabled ? <span className="stat"><IssueOpenedIcon />{issues.totalCount}</span> : null}
                         </div>
                         <div className="stats-box right">
-                            <span className="stat"><Octicon icon={GitPullRequest} />{pullRequests.totalCount}</span>
-                            <span className="stat"><Octicon icon={Tools} />{renovateRequests.totalCount}</span>
+                            <span className="stat"><GitPullRequestIcon />{pullRequests.totalCount}</span>
+                            <span className="stat"><ToolsIcon />{renovateRequests.totalCount}</span>
                         </div>
                     </li>
                 );

@@ -1,6 +1,5 @@
 import React from 'react';
-
-// import Octicon, {Repo, RepoForked, GitPullRequest, Tools, IssueOpened, Lock, Versions} from '@githubprimer/octicons-react';
+import {IssueOpenedIcon} from '@primer/octicons-react';
 
 import Label from './Label';
 import './List.css';
@@ -8,17 +7,16 @@ import './List.css';
 export const Issues = ({issues = []}) => (
     <ul className="card-list">
         {issues.map(
-            ({id, number, title, url, author, labels, assignees}) => {
+            ({id, number, title, url, author, labels, assignees, repository}) => {
                 return (
                     <li key={id} className="card">
                         <h4 className="title">
-                            {number}
-                            <a href={url}>{title}</a>
-                        </h4>
-                        <div className="title">
-                            {labels.nodes.map(({name, color}) => {
+                            <a href={url}><IssueOpenedIcon size={16} />{repository.nameWithOwner}#{number}</a> {labels.nodes.map(({name, color}) => {
                                 return <Label color={color}>{name}</Label>;
                             })}
+                        </h4>
+                        <div className="desc">
+                            {title}
                         </div>
 
                         <div className="left">Assignees: {assignees.nodes.map(({login}) => login)}</div>

@@ -11,7 +11,7 @@ import {
     Header
 } from 'gitstar-components';
 
-import Octicon, {Bookmark} from '@githubprimer/octicons-react';
+import {BookmarkIcon} from '@primer/octicons-react';
 
 import {ApolloProvider, ApolloClient, InMemoryCache} from '@apollo/client';
 
@@ -134,7 +134,7 @@ const App = () => {
                 <Container>
                     <Header>
                         <div style={{display: 'flex', alignItems: 'center'}}>
-                            <Octicon icon={Bookmark} size='medium' />
+                            <BookmarkIcon size={16} />
                             <span className="logotype">Slimer Dashboard</span>
                         </div>
                         <div>
