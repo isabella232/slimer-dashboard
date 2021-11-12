@@ -2,6 +2,7 @@ import React from 'react';
 
 // import Octicon, {Repo, RepoForked, GitPullRequest, Tools, IssueOpened, Lock, Versions} from '@githubprimer/octicons-react';
 
+import Label from './Label';
 import './Issues.css';
 
 export const Issues = ({issues = []}) => (
@@ -14,7 +15,11 @@ export const Issues = ({issues = []}) => (
                             {number}
                             <a href={url}>{title}</a>
                         </h4>
-                        <div className="title">Labels: {labels.nodes.map(({name}) => name)}</div>
+                        <div className="title">
+                            {labels.nodes.map(({name, color}) => {
+                                return <Label color={color}>{name}</Label>;
+                            })}
+                        </div>
 
                         <div className="left">Assignees: {assignees.nodes.map(({login}) => login)}</div>
                         <div className="right">Author: {author.login}</div>

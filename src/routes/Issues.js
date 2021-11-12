@@ -19,6 +19,7 @@ fragment IssueTile on Issue {
    labels (first:10) {
      nodes {
        name
+       color
      }
    }
     author {
