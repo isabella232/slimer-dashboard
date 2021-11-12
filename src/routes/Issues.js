@@ -90,7 +90,7 @@ const IssuesWrapper = () => {
     // Show placeholders on first render
     if (loading && (!data || !data.search)) {
         return (
-            <Wrapper>
+            <Wrapper className="issues">
                 <IssuesPlaceholder />
             </Wrapper>
         );
@@ -99,7 +99,7 @@ const IssuesWrapper = () => {
     if (loading || isLoadingMore) {
         // Show both repositories and placeholder when user clicks show more
         return (
-            <Wrapper>
+            <Wrapper className="issues">
                 <Issues
                     issues={filterIssues(data.search.nodes)}
                 />
@@ -109,7 +109,7 @@ const IssuesWrapper = () => {
     }
 
     return (
-        <Wrapper>
+        <Wrapper className="issues">
             <Issues
                 issues={filterIssues(data.search.nodes)}
             />

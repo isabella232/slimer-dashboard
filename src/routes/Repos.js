@@ -113,7 +113,7 @@ const RepositoriesWrapper = () => {
     // Show placeholders on first render
     if (loading && (!data || !data.search)) {
         return (
-            <Wrapper>
+            <Wrapper className="repositories">
                 <RepositoriesPlaceholder />
             </Wrapper>
         );
@@ -122,7 +122,7 @@ const RepositoriesWrapper = () => {
     if (loading || isLoadingMore) {
         // Show both repositories and placeholder when user clicks show more
         return (
-            <Wrapper>
+            <Wrapper className="repositories">
                 <Repositories
                     repositories={getRepositories(data.search.nodes)}
                 />
@@ -132,7 +132,7 @@ const RepositoriesWrapper = () => {
     }
 
     return (
-        <Wrapper>
+        <Wrapper className="repositories">
             <Repositories
                 repositories={getRepositories(data.search.nodes)}
             />

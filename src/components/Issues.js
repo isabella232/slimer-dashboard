@@ -3,7 +3,7 @@ import React from 'react';
 // import Octicon, {Repo, RepoForked, GitPullRequest, Tools, IssueOpened, Lock, Versions} from '@githubprimer/octicons-react';
 
 import Label from './Label';
-import './Issues.css';
+import './List.css';
 
 export const Issues = ({issues = []}) => (
     <ul className="card-list">

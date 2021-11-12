@@ -1,12 +1,17 @@
-
-
 .card-list {
   display: grid;
-  grid-template-columns: 20% 20% 20% 20% 20%;
+
   grid-column-gap: 16px;
   grid-row-gap: 16px;
 }
 
+.repositories .card-list {
+    grid-template-columns: 20% 20% 20% 20% 20%;
+}
+
+.issues .card-list {
+    grid-template-columns: 50% 50%;
+}
 
 .card {
   display: grid;
