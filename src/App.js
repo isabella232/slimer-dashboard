@@ -20,6 +20,7 @@ import Login from './components/Login';
 
 import Repos from './routes/Repos';
 import Issues from './routes/Issues';
+import PRs from './routes/PRs';
 
 const cache = new InMemoryCache({
     typePolicies: {
@@ -140,6 +141,7 @@ const App = () => {
                         <div>
                             <nav>
                                 <NavLink className={({isActive}) => (isActive ? 'active' : null)} to="/">Repos</NavLink>{' | '}
+                                <NavLink className={({isActive}) => (isActive ? 'active' : null)} to="/prs">PRs</NavLink>{' | '}
                                 <NavLink className={({isActive}) => (isActive ? 'active' : null)} to="/issues">Issues</NavLink>
                             </nav>
                         </div>
@@ -150,6 +152,7 @@ const App = () => {
 
                     <Routes>
                         <Route path="/" element={<Repos />} />
+                        <Route path="/prs" element={<PRs />} />
                         <Route path="/issues" element={<Issues />} />
                     </Routes>
                 </Container>
