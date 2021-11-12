@@ -26,7 +26,7 @@ const cache = new InMemoryCache({
         Query: {
             fields: {
                 search: {
-                    keyArgs: [],
+                    keyArgs: ['type'],
                     merge(existing = {}, incoming) {
                         const existingNodes = existing.nodes || [];
                         const incomingNodes = incoming.nodes || [];
@@ -82,7 +82,7 @@ const cache = new InMemoryCache({
             }
         },
         PullRequest: {
-            keyFields: ['id'],
+            keyFields: ['repository', ['nameWithOwner'], 'number'],
             fields: {
                 isRenovate: {
                     read(_, {readField}) {
