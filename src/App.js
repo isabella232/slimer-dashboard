@@ -3,7 +3,7 @@ import {
     BrowserRouter as Router,
     Routes,
     Route,
-    Link
+    NavLink
 } from 'react-router-dom';
 
 import {
@@ -136,8 +136,8 @@ const App = () => {
                         </div>
                         <div>
                             <nav>
-                                <Link to="/">Repos</Link>{' | '}
-                                <Link to="/issues">Issues</Link>
+                                <NavLink className={({isActive}) => (isActive ? 'active' : null)} to="/">Repos</NavLink>{' | '}
+                                <NavLink className={({isActive}) => (isActive ? 'active' : null)} to="/issues">Issues</NavLink>
                             </nav>
                         </div>
                         <div>
