@@ -43,12 +43,12 @@ const cache = new InMemoryCache({
                             return existing;
                         }
 
-                        if (existing.nodes.length > 0) {
+                        if (existing.nodes.length > 0 && existing.repositoryCount) {
                             const sortedNodes = [...existing.nodes].sort((a, b) => {
-                                const totalCountA = readField({from: a, fieldName: 'pullRequests', args: {first: 100, states: 'OPEN'}}).totalCount;
-                                const totalCountB = readField({from: b, fieldName: 'pullRequests', args: {first: 100, states: 'OPEN'}}).totalCount;
+                                const prsA = readField({from: a, fieldName: 'pullRequests', args: {first: 100, states: 'OPEN'}});
+                                const prsB = readField({from: b, fieldName: 'pullRequests', args: {first: 100, states: 'OPEN'}});
 
-                                return totalCountB - totalCountA;
+                                return prsB.totalCount - prsA.totalCount;
                             });
 
                             return {
@@ -80,6 +80,9 @@ const cache = new InMemoryCache({
                     }
                 }
             }
+        },
+        Issue: {
+            keyFields: ['repository', ['nameWithOwner'], 'number']
         },
         PullRequest: {
             keyFields: ['repository', ['nameWithOwner'], 'number'],

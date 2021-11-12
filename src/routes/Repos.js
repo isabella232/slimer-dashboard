@@ -19,9 +19,12 @@ export const PULL_REQUEST_LIST = gql`
             isRenovate @client
             headRefName
             author {
-            login
+                login
             }
             url
+            repository {
+                nameWithOwner
+           }
         }
     }
 `;
