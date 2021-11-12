@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {
+    BrowserRouter as Router,
+    Routes,
+    Route,
+    Link
+} from 'react-router-dom';
+
+import {
     Container,
     Header
 } from 'gitstar-components';
@@ -8,10 +15,11 @@ import Octicon, {Bookmark} from '@githubprimer/octicons-react';
 
 import {ApolloProvider, ApolloClient, InMemoryCache} from '@apollo/client';
 
-import Avatar from './Avatar';
-import Repos from './Repos';
-
+import Avatar from './components/Avatar';
 import Login from './components/Login';
+
+import Repos from './routes/Repos';
+import Issues from './routes/Issues';
 
 const cache = new InMemoryCache({
     typePolicies: {
@@ -119,19 +127,30 @@ const App = () => {
 
     return (
         <ApolloProvider client={client}>
-            <Container>
-                <Header>
-                    <div style={{display: 'flex', alignItems: 'center'}}>
-                        <Octicon icon={Bookmark} size='medium' />
-                        <span className="logotype">Slimer Dashboard</span>
-                    </div>
-                    <div>
-                        <Avatar />
-                    </div>
-                </Header>
+            <Router>
+                <Container>
+                    <Header>
+                        <div style={{display: 'flex', alignItems: 'center'}}>
+                            <Octicon icon={Bookmark} size='medium' />
+                            <span className="logotype">Slimer Dashboard</span>
+                        </div>
+                        <div>
+                            <nav>
+                                <Link to="/">Repos</Link>{' | '}
+                                <Link to="/issues">Issues</Link>
+                            </nav>
+                        </div>
+                        <div>
+                            <Avatar />
+                        </div>
+                    </Header>
 
-                <Repos />
-            </Container>
+                    <Routes>
+                        <Route path="/" element={<Repos />} />
+                        <Route path="/issues" element={<Issues />} />
+                    </Routes>
+                </Container>
+            </Router>
         </ApolloProvider>
     );
 };

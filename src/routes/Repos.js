@@ -6,8 +6,8 @@ import {
     LoadMoreButton
 } from 'gitstar-components';
 
-import {Repositories, RepositoriesPlaceholder} from './components/Repositories';
-import Wrapper from './components/Wrapper';
+import {Repositories, RepositoriesPlaceholder} from '../components/Repositories';
+import Wrapper from '../components/Wrapper';
 
 const DEFAULT_REPOS = 20;
 
