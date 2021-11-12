@@ -33,7 +33,7 @@ export const Repositories = ({repositories = []}) => (
 );
 
 export const RepositoriesPlaceholder = () => (
-    <ul className="card-list">
+    <ul className="card-list placeholder">
         {Array(20)
             .fill('')
             .map((line, index) => (
