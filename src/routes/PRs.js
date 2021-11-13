@@ -9,7 +9,7 @@ import {PullRequests, PullRequestsPlaceholder} from '../components/PullRequests'
 
 export const PR_TILE_DATA = gql`
 fragment PullRequestTile on PullRequest {
-   id
+   id: databaseId,
    title
    number
    url

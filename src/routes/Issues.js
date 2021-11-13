@@ -9,7 +9,7 @@ import {Issues, IssuesPlaceholder} from '../components/Issues';
 
 export const ISSUE_TILE_DATA = gql`
 fragment IssueTile on Issue {
-   id
+   id: databaseId,
    title
    number
    url

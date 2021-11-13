@@ -27,7 +27,7 @@ const cache = new InMemoryCache({
         Query: {
             fields: {
                 search: {
-                    keyArgs: ['type'],
+                    keyArgs: ['query'],
                     merge(existing = {}, incoming) {
                         const existingNodes = existing.nodes || [];
                         const incomingNodes = incoming.nodes || [];
