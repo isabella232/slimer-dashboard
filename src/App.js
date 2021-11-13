@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
     BrowserRouter as Router,
     Routes,
@@ -11,9 +11,10 @@ import {
     Header
 } from 'gitstar-components';
 
-import {BookmarkIcon} from '@primer/octicons-react';
+import {BookmarkIcon, SyncIcon} from '@primer/octicons-react';
 
 import {ApolloProvider, ApolloClient, InMemoryCache} from '@apollo/client';
+import {CachePersistor, LocalStorageWrapper} from 'apollo3-cache-persist';
 
 import Avatar from './components/Avatar';
 import Login from './components/Login';
@@ -101,6 +102,7 @@ const cache = new InMemoryCache({
 const App = () => {
     const [client, setClient] = useState();
     const [token, setToken] = useState();
+    const [persistor, setPersistor] = useState();
 
     const storedToken = localStorage.getItem('github_token');
     if (!token && storedToken) {
@@ -109,6 +111,14 @@ const App = () => {
 
     useEffect(() => {
         async function init() {
+            let newPersistor = new CachePersistor({
+                cache,
+                storage: new LocalStorageWrapper(window.localStorage),
+                debug: true,
+                trigger: 'write'
+            });
+            await newPersistor.restore();
+            setPersistor(newPersistor);
             setClient(new ApolloClient({
                 cache,
                 uri: 'https://api.github.com/graphql',
@@ -120,6 +130,13 @@ const App = () => {
 
         init().catch(console.error);
     }, [token]);
+
+    const clearCache = useCallback(() => {
+        if (!persistor) {
+            return;
+        }
+        persistor.purge();
+    }, [persistor]);
 
     const onLoginSuccess = (_token) => {
         setToken(_token);
@@ -147,6 +164,7 @@ const App = () => {
                         </div>
                         <div>
                             <Avatar />
+                            <a onClick={clearCache}><SyncIcon /></a>
                         </div>
                     </Header>
 
