@@ -6,7 +6,9 @@ import {
     LoadMoreButton
 } from 'gitstar-components';
 
-import {Repositories, RepositoriesPlaceholder} from '../components/Repositories';
+import Repositories from '../components/Repositories';
+import Placeholder from '../components/Placeholder';
+
 import Wrapper from '../components/Wrapper';
 
 const DEFAULT_REPOS = 20;
@@ -113,7 +115,7 @@ const RepositoriesWrapper = () => {
     if (loading && (!data || !data.search)) {
         return (
             <Wrapper className="repositories">
-                <RepositoriesPlaceholder />
+                <Placeholder />
             </Wrapper>
         );
     }
@@ -125,7 +127,7 @@ const RepositoriesWrapper = () => {
                 <Repositories
                     repositories={getRepositories(data.search.nodes)}
                 />
-                <RepositoriesPlaceholder />
+                <Placeholder />
             </Wrapper>
         );
     }

@@ -5,7 +5,8 @@ import Wrapper from '../components/Wrapper';
 import {
     LoadMoreButton
 } from 'gitstar-components';
-import {Issues, IssuesPlaceholder} from '../components/Issues';
+import Issues from '../components/Issues';
+import Placeholder from '../components/Placeholder';
 
 export const ISSUE_TILE_DATA = gql`
 fragment IssueTile on Issue {
@@ -91,7 +92,7 @@ const IssuesWrapper = () => {
     if (loading && (!data || !data.search)) {
         return (
             <Wrapper className="issues">
-                <IssuesPlaceholder />
+                <Placeholder />
             </Wrapper>
         );
     }
@@ -103,7 +104,7 @@ const IssuesWrapper = () => {
                 <Issues
                     issues={filterIssues(data.search.nodes)}
                 />
-                <IssuesPlaceholder />
+                <Placeholder />
             </Wrapper>
         );
     }

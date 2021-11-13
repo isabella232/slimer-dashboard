@@ -5,7 +5,8 @@ import Wrapper from '../components/Wrapper';
 import {
     LoadMoreButton
 } from 'gitstar-components';
-import {PullRequests, PullRequestsPlaceholder} from '../components/PullRequests';
+import PullRequests from '../components/PullRequests';
+import Placeholder from '../components/Placeholder';
 
 export const PR_TILE_DATA = gql`
 fragment PullRequestTile on PullRequest {
@@ -91,7 +92,7 @@ const PRsWrapper = () => {
     if (loading && (!data || !data.search)) {
         return (
             <Wrapper className="issues">
-                <PullRequestsPlaceholder />
+                <Placeholder />
             </Wrapper>
         );
     }
@@ -103,7 +104,7 @@ const PRsWrapper = () => {
                 <PullRequests
                     issues={filterPRs(data.search.nodes)}
                 />
-                <PullRequestsPlaceholder />
+                <Placeholder />
             </Wrapper>
         );
     }
