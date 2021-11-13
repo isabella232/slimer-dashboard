@@ -5,11 +5,11 @@
 }
 
 .repositories .card-list {
-    grid-template-columns: 20% 20% 20% 20% 20%;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 }
 
 .issues .card-list {
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 1fr 1fr;
 }
 
 .card {

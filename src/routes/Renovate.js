@@ -38,7 +38,7 @@ const GET_PRS = gql`
  query GetPullRequest($after: String) {
      search(
        type: ISSUE
-       query: "org:TryGhost is:pr state:open sort:updated -author:app/renovate"
+       query: "org:TryGhost is:pr state:open sort:updated author:app/renovate"
        first: 20
        after: $after
      ) {
