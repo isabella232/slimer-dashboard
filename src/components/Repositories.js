@@ -12,7 +12,7 @@ function getUrl(name, type) {
 export const Repositories = ({repositories = []}) => (
     <ul className="card-list">
         {repositories.map(
-            ({name, descriptionHTML, url, hasIssuesEnabled, pullRequests, renovateRequests, issues, isFork, isPrivate, isMono}) => {
+            ({name, descriptionHTML, url, hasIssuesEnabled, nonRenovateRequests, renovateRequests, issues, isFork, isPrivate, isMono}) => {
                 return (
                     <li key={url} className="card">
                         <h4 className="title">
@@ -25,7 +25,7 @@ export const Repositories = ({repositories = []}) => (
                             {hasIssuesEnabled ? <NavLink to={getUrl(name, 'issues')}><span className="stat"><IssueOpenedIcon />{issues.totalCount}</span></NavLink> : null}
                         </div>
                         <div className="stats-box right">
-                            <NavLink to={getUrl(name, 'prs')}><span className="stat"><GitPullRequestIcon />{pullRequests.totalCount}</span></NavLink>
+                            <NavLink to={getUrl(name, 'prs')}><span className="stat"><GitPullRequestIcon />{nonRenovateRequests.totalCount}</span></NavLink>
                             <NavLink to={getUrl(name, 'renovate')}><span className="stat"><ToolsIcon />{renovateRequests.totalCount}</span></NavLink>
                         </div>
                     </li>

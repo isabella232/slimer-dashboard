@@ -40,6 +40,9 @@ export const REPOSITORY_TILE_DATA = gql`
     renovateRequests @client {
         ...PullRequestList
     }
+    nonRenovateRequests @client {
+        ...PullRequestList
+    }
     pullRequests(states: OPEN, first: 100) {
        ...PullRequestList
     }
