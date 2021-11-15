@@ -37,7 +37,7 @@ const Label = ({children, color}) => {
         borderColor = colord(hexColor).darken(0.5).toHex();
     }
 
-    return <span className="label" style={{backgroundColor: hexColor, color: textColor, borderColor: borderColor}}>{children}</span>;
+    return <span className="label-pill" style={{backgroundColor: hexColor, color: textColor, borderColor: borderColor}}>{children}</span>;
 };
 
 export default Label;
