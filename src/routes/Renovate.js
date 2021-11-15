@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {useSearchParams} from 'react-router-dom';
 import {useQuery, gql} from '@apollo/client';
 import Wrapper from '../components/Wrapper';
 
@@ -57,8 +58,38 @@ const GET_PRS = gql`
    ${PR_TILE_DATA}
    `;
 
-const filterPRs = (issues) => {
-    return issues;
+const filterPRs = (prs, params) => {
+    let filteredPRs = prs;
+
+    const repoFilter = params.getAll('repo');
+    const authorFilter = params.getAll('author');
+    const labelFilter = params.getAll('label');
+
+    if (repoFilter.length > 0) {
+        filteredPRs = prs.filter((issue) => {
+            return repoFilter.some((filter) => {
+                return filter.toLowerCase() === issue.repository.name.toLowerCase();
+            });
+        });
+    }
+
+    if (authorFilter.length > 0) {
+        filteredPRs = prs.filter((issue) => {
+            return authorFilter.some((filter) => {
+                return filter.toLowerCase() === issue.author.login.toLowerCase();
+            });
+        });
+    }
+
+    if (labelFilter.length > 0) {
+        filteredPRs = prs.filter((issue) => {
+            return issue.labels.nodes.some((node) => {
+                return labelFilter.indexOf(node.name) > -1;
+            });
+        });
+    }
+
+    return filteredPRs;
 };
 
 const PRsWrapper = () => {
@@ -69,6 +100,7 @@ const PRsWrapper = () => {
     });
 
     const [isLoadingMore, setIsLoadingMore] = useState(false);
+    const [params] = useSearchParams();
 
     const loadMore = async () => {
         setIsLoadingMore(true);
@@ -102,7 +134,7 @@ const PRsWrapper = () => {
         return (
             <Wrapper className="issues">
                 <PullRequests
-                    issues={filterPRs(data.search.nodes)}
+                    issues={filterPRs(data.search.nodes, params)}
                 />
                 <Placeholder />
             </Wrapper>
@@ -112,7 +144,7 @@ const PRsWrapper = () => {
     return (
         <Wrapper className="issues">
             <PullRequests
-                issues={filterPRs(data.search.nodes)}
+                issues={filterPRs(data.search.nodes, params)}
             />
             <LoadMoreButton loadMore={loadMore} />
 

@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {useSearchParams} from 'react-router-dom';
 import {useQuery, gql} from '@apollo/client';
 import Wrapper from '../components/Wrapper';
 
@@ -58,11 +59,41 @@ const GET_ISSUES = gql`
    ${ISSUE_TILE_DATA}
    `;
 
-const filterIssues = (issues) => {
-    return issues;
+const filterIssues = (issues, params) => {
+    let filteredIssues = issues;
+
+    const repoFilter = params.getAll('repo');
+    const authorFilter = params.getAll('author');
+    const labelFilter = params.getAll('label');
+
+    if (repoFilter.length > 0) {
+        filteredIssues = issues.filter((issue) => {
+            return repoFilter.some((filter) => {
+                return filter.toLowerCase() === issue.repository.name.toLowerCase();
+            });
+        });
+    }
+
+    if (authorFilter.length > 0) {
+        filteredIssues = issues.filter((issue) => {
+            return authorFilter.some((filter) => {
+                return filter.toLowerCase() === issue.author.login.toLowerCase();
+            });
+        });
+    }
+
+    if (labelFilter.length > 0) {
+        filteredIssues = issues.filter((issue) => {
+            return issue.labels.nodes.some((node) => {
+                return labelFilter.indexOf(node.name) > -1;
+            });
+        });
+    }
+
+    return filteredIssues;
 };
 
-const IssuesWrapper = () => {
+const IssuesWrapper = (...args) => {
     const {loading, error, data, fetchMore} = useQuery(GET_ISSUES, {
         variables: {
             after: null
@@ -70,6 +101,7 @@ const IssuesWrapper = () => {
     });
 
     const [isLoadingMore, setIsLoadingMore] = useState(false);
+    const [params] = useSearchParams();
 
     const loadMore = async () => {
         setIsLoadingMore(true);
@@ -102,7 +134,7 @@ const IssuesWrapper = () => {
         return (
             <Wrapper className="issues">
                 <Issues
-                    issues={filterIssues(data.search.nodes)}
+                    issues={filterIssues(data.search.nodes, params)}
                 />
                 <Placeholder />
             </Wrapper>
@@ -112,7 +144,7 @@ const IssuesWrapper = () => {
     return (
         <Wrapper className="issues">
             <Issues
-                issues={filterIssues(data.search.nodes)}
+                issues={filterIssues(data.search.nodes, params)}
             />
             <LoadMoreButton loadMore={loadMore} />
 
