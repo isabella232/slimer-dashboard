@@ -1,8 +1,13 @@
 import React from 'react';
+import {NavLink} from 'react-router-dom';
 
 import {RepoIcon, RepoForkedIcon, LockIcon, IssueOpenedIcon, GitPullRequestIcon, ToolsIcon, VersionsIcon} from '@primer/octicons-react';
 
 import './List.css';
+
+function getUrl(name, type) {
+    return `/${type}?repo=${name}`;
+}
 
 export const Repositories = ({repositories = []}) => (
     <ul className="card-list">
@@ -17,11 +22,11 @@ export const Repositories = ({repositories = []}) => (
                         </h4>
                         <div className="desc" dangerouslySetInnerHTML={{__html: descriptionHTML}} />
                         <div className="stats-box left">
-                            {hasIssuesEnabled ? <span className="stat"><IssueOpenedIcon />{issues.totalCount}</span> : null}
+                            {hasIssuesEnabled ? <NavLink to={getUrl(name, 'issues')}><span className="stat"><IssueOpenedIcon />{issues.totalCount}</span></NavLink> : null}
                         </div>
                         <div className="stats-box right">
-                            <span className="stat"><GitPullRequestIcon />{pullRequests.totalCount}</span>
-                            <span className="stat"><ToolsIcon />{renovateRequests.totalCount}</span>
+                            <NavLink to={getUrl(name, 'prs')}><span className="stat"><GitPullRequestIcon />{pullRequests.totalCount}</span></NavLink>
+                            <NavLink to={getUrl(name, 'renovate')}><span className="stat"><ToolsIcon />{renovateRequests.totalCount}</span></NavLink>
                         </div>
                     </li>
                 );
