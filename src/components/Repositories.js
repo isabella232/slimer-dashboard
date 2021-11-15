@@ -12,9 +12,9 @@ function getUrl(name, type) {
 export const Repositories = ({repositories = []}) => (
     <ul className="card-list">
         {repositories.map(
-            ({name, id, descriptionHTML, url, hasIssuesEnabled, pullRequests, renovateRequests, issues, isFork, isPrivate, isMono}) => {
+            ({name, descriptionHTML, url, hasIssuesEnabled, pullRequests, renovateRequests, issues, isFork, isPrivate, isMono}) => {
                 return (
-                    <li key={id} className="card">
+                    <li key={url} className="card">
                         <h4 className="title">
                             {isFork ? <RepoForkedIcon size={16} /> : (isPrivate ? <LockIcon size={16} /> : <RepoIcon size={16} />)}
                             <a href={url}>{name}</a>

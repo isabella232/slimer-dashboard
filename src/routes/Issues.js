@@ -11,7 +11,6 @@ import Placeholder from '../components/Placeholder';
 
 export const ISSUE_TILE_DATA = gql`
 fragment IssueTile on Issue {
-   id: databaseId,
    title
    number
    url

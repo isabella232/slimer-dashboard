@@ -17,7 +17,6 @@ export const PULL_REQUEST_LIST = gql`
     fragment PullRequestList on PullRequestConnection {
         totalCount
         nodes {
-            id: databaseId,
             number
             isRenovate @client
             headRefName
@@ -34,7 +33,6 @@ export const PULL_REQUEST_LIST = gql`
 
 export const REPOSITORY_TILE_DATA = gql`
   fragment RepositoryTile on Repository {
-    id
     name
     url
     descriptionHTML
@@ -87,6 +85,8 @@ const getRepositories = (repositories) => {
 
 const RepositoriesWrapper = () => {
     const {loading, error, data, fetchMore} = useQuery(GET_REPOSITORIES, {
+        fetchPolicy: 'cache-and-network', // Used for first execution
+        nextFetchPolicy: 'cache-first', // Used for subsequent executions
         variables: {
             after: null
         }

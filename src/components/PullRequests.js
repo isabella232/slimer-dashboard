@@ -12,9 +12,9 @@ function getUrl(name, type) {
 export const PullRequests = ({issues = []}) => (
     <ul className="card-list">
         {issues.map(
-            ({id, number, title, url, author, labels, assignees, repository}) => {
+            ({number, title, url, author, labels, assignees, repository}) => {
                 return (
-                    <li key={id} className="card">
+                    <li key={url} className="card">
                         <h4 className="title">
                             <a href={url}><GitPullRequestIcon size={16} />{repository.name}#{number}</a> {labels.nodes.map(({name, color}) => {
                                 return <NavLink to={getUrl(name, 'prs')}><Label color={color}>{name}</Label></NavLink>;

@@ -11,7 +11,6 @@ import Placeholder from '../components/Placeholder';
 
 export const PR_TILE_DATA = gql`
 fragment PullRequestTile on PullRequest {
-   id: databaseId,
    title
    number
    url

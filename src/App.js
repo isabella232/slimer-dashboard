@@ -14,7 +14,7 @@ import {
 import {BookmarkIcon, SyncIcon} from '@primer/octicons-react';
 
 import {ApolloProvider, ApolloClient, InMemoryCache} from '@apollo/client';
-import {CachePersistor, LocalStorageWrapper} from 'apollo3-cache-persist';
+import {persistCache, LocalStorageWrapper} from 'apollo3-cache-persist';
 
 import Avatar from './components/Avatar';
 import Login from './components/Login';
@@ -30,14 +30,34 @@ const cache = new InMemoryCache({
             fields: {
                 search: {
                     keyArgs: ['query'],
-                    merge(existing = {}, incoming) {
+                    merge(existing = {}, incoming, {readField, mergeObjects}) {
                         const existingNodes = existing.nodes || [];
                         const incomingNodes = incoming.nodes || [];
+
+                        const mergedNodes = [...existingNodes];
+                        const repoUrlToIndex = {};
+
+                        existingNodes.forEach((repo, index) => {
+                            repoUrlToIndex[readField('url', repo)] = index;
+                        });
+
+                        incomingNodes.forEach((repo) => {
+                            const url = readField('url', repo);
+                            const index = repoUrlToIndex[url];
+                            if (typeof index === 'number') {
+                                // Merge the new repo data with the existing repo data.
+                                mergedNodes[index] = mergeObjects(mergedNodes[index], repo);
+                            } else {
+                                // First time we've seen this repo in this array.
+                                repoUrlToIndex[url] = mergedNodes.length;
+                                mergedNodes.push(repo);
+                            }
+                        });
 
                         return {
                             ...existing,
                             ...incoming,
-                            nodes: [...existingNodes, ...incomingNodes],
+                            nodes: mergedNodes,
                             pageInfo: incoming.pageInfo
                         };
                     },
@@ -103,7 +123,6 @@ const cache = new InMemoryCache({
 const App = () => {
     const [client, setClient] = useState();
     const [token, setToken] = useState();
-    const [persistor, setPersistor] = useState();
 
     const storedToken = localStorage.getItem('github_token');
     if (!token && storedToken) {
@@ -112,14 +131,13 @@ const App = () => {
 
     useEffect(() => {
         async function init() {
-            let newPersistor = new CachePersistor({
+            await persistCache({
                 cache,
                 storage: new LocalStorageWrapper(window.localStorage),
                 debug: true,
                 trigger: 'write'
             });
-            await newPersistor.restore();
-            setPersistor(newPersistor);
+
             setClient(new ApolloClient({
                 cache,
                 uri: 'https://api.github.com/graphql',
@@ -132,12 +150,9 @@ const App = () => {
         init().catch(console.error);
     }, [token]);
 
-    const clearCache = useCallback(() => {
-        if (!persistor) {
-            return;
-        }
-        persistor.purge();
-    }, [persistor]);
+    const clearCache = useCallback(async () => {
+        await client.resetStore();
+    }, [client]);
 
     const onLoginSuccess = (_token) => {
         setToken(_token);
