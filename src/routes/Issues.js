@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {useSearchParams} from 'react-router-dom';
 import {useQuery, gql} from '@apollo/client';
 import Wrapper from '../components/Wrapper';
+import buildQuery from '../utils/buildQuery';
 
 import {
     LoadMoreButton
@@ -36,10 +37,10 @@ fragment IssueTile on Issue {
  `;
 
 const GET_ISSUES = gql`
- query GetIssues($after: String) {
+ query GetIssues($after: String, $query: String!) {
      search(
        type: ISSUE
-       query: "org:TryGhost is:issue state:open sort:updated"
+       query: $query
        first: 20
        after: $after
      ) {
@@ -49,63 +50,34 @@ const GET_ISSUES = gql`
          hasNextPage
        }
        nodes {
-
          ...IssueTile
-
        }
      }
    }
    ${ISSUE_TILE_DATA}
    `;
 
-const filterIssues = (issues, params) => {
-    let filteredIssues = issues;
-
-    const repoFilter = params.getAll('repo');
-    const authorFilter = params.getAll('author');
-    const labelFilter = params.getAll('label');
-
-    if (repoFilter.length > 0) {
-        filteredIssues = issues.filter((issue) => {
-            return repoFilter.some((filter) => {
-                return filter.toLowerCase() === issue.repository.name.toLowerCase();
-            });
-        });
-    }
-
-    if (authorFilter.length > 0) {
-        filteredIssues = issues.filter((issue) => {
-            return authorFilter.some((filter) => {
-                return filter.toLowerCase() === issue.author.login.toLowerCase();
-            });
-        });
-    }
-
-    if (labelFilter.length > 0) {
-        filteredIssues = issues.filter((issue) => {
-            return issue.labels.nodes.some((node) => {
-                return labelFilter.indexOf(node.name) > -1;
-            });
-        });
-    }
-
-    return filteredIssues;
+const filterIssues = (issues) => {
+    return issues;
 };
 
 const IssuesWrapper = (...args) => {
+    const [params] = useSearchParams();
+    const query = buildQuery(params, 'issue');
+
     const {loading, error, data, fetchMore} = useQuery(GET_ISSUES, {
         variables: {
-            after: null
+            after: null,
+            query
         }
     });
 
     const [isLoadingMore, setIsLoadingMore] = useState(false);
-    const [params] = useSearchParams();
 
     const loadMore = async () => {
         setIsLoadingMore(true);
         await fetchMore({
-            variables: {after: data.search.pageInfo.endCursor}
+            variables: {after: data.search.pageInfo.endCursor, query}
         });
         setIsLoadingMore(false);
     };
@@ -114,6 +86,7 @@ const IssuesWrapper = (...args) => {
         return (
             <div style={{padding: 20}}>
                 <p>Failed to load issues</p>
+                <p>{error.message}</p>
                 <a href="/">Refresh Page</a>
             </div>
         );
@@ -133,7 +106,7 @@ const IssuesWrapper = (...args) => {
         return (
             <Wrapper className="issues">
                 <Issues
-                    issues={filterIssues(data.search.nodes, params)}
+                    issues={filterIssues(data.search.nodes)}
                 />
                 <Placeholder />
             </Wrapper>
@@ -143,7 +116,7 @@ const IssuesWrapper = (...args) => {
     return (
         <Wrapper className="issues">
             <Issues
-                issues={filterIssues(data.search.nodes, params)}
+                issues={filterIssues(data.search.nodes)}
             />
             <LoadMoreButton loadMore={loadMore} />
 

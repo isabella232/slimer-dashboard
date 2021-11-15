@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {useSearchParams} from 'react-router-dom';
 import {useQuery, gql} from '@apollo/client';
 import Wrapper from '../components/Wrapper';
+import buildQuery from '../utils/buildQuery';
 
 import {
     LoadMoreButton
@@ -36,10 +37,10 @@ fragment PullRequestTile on PullRequest {
  `;
 
 const GET_PRS = gql`
- query GetPullRequest($after: String) {
+ query GetPullRequest($after: String, $query: String!) {
      search(
        type: ISSUE
-       query: "org:TryGhost is:pr state:open sort:updated author:app/renovate"
+       query: $query
        first: 20
        after: $after
      ) {
@@ -50,61 +51,33 @@ const GET_PRS = gql`
        }
        nodes {
          ...PullRequestTile
-
        }
      }
    }
    ${PR_TILE_DATA}
    `;
 
-const filterPRs = (prs, params) => {
-    let filteredPRs = prs;
-
-    const repoFilter = params.getAll('repo');
-    const authorFilter = params.getAll('author');
-    const labelFilter = params.getAll('label');
-
-    if (repoFilter.length > 0) {
-        filteredPRs = prs.filter((issue) => {
-            return repoFilter.some((filter) => {
-                return filter.toLowerCase() === issue.repository.name.toLowerCase();
-            });
-        });
-    }
-
-    if (authorFilter.length > 0) {
-        filteredPRs = prs.filter((issue) => {
-            return authorFilter.some((filter) => {
-                return filter.toLowerCase() === issue.author.login.toLowerCase();
-            });
-        });
-    }
-
-    if (labelFilter.length > 0) {
-        filteredPRs = prs.filter((issue) => {
-            return issue.labels.nodes.some((node) => {
-                return labelFilter.indexOf(node.name) > -1;
-            });
-        });
-    }
-
-    return filteredPRs;
+const filterPRs = (prs) => {
+    return prs;
 };
 
 const PRsWrapper = () => {
+    const [params] = useSearchParams();
+    const query = buildQuery(params, 'pr', 'author:app/renovate');
+
     const {loading, error, data, fetchMore} = useQuery(GET_PRS, {
         variables: {
-            after: null
+            after: null,
+            query
         }
     });
 
     const [isLoadingMore, setIsLoadingMore] = useState(false);
-    const [params] = useSearchParams();
 
     const loadMore = async () => {
         setIsLoadingMore(true);
         await fetchMore({
-            variables: {after: data.search.pageInfo.endCursor}
+            variables: {after: data.search.pageInfo.endCursor, query}
         });
         setIsLoadingMore(false);
     };
@@ -133,7 +106,7 @@ const PRsWrapper = () => {
         return (
             <Wrapper className="issues">
                 <PullRequests
-                    issues={filterPRs(data.search.nodes, params)}
+                    issues={filterPRs(data.search.nodes)}
                 />
                 <Placeholder />
             </Wrapper>
@@ -143,7 +116,7 @@ const PRsWrapper = () => {
     return (
         <Wrapper className="issues">
             <PullRequests
-                issues={filterPRs(data.search.nodes, params)}
+                issues={filterPRs(data.search.nodes)}
             />
             <LoadMoreButton loadMore={loadMore} />
 
