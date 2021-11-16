@@ -25,7 +25,7 @@ const buildQuery = (params, type, base = '') => {
 
     if (labelFilter.length > 0) {
         const labelQuery = labelFilter.map((name) => {
-            return `label:${name}`;
+            return `label:"${name}"`;
         }).join(' ');
 
         query = `${query} ${labelQuery}`;
