@@ -119,3 +119,17 @@
 nav .active {
     font-weight: bold;
 }
+
+.status-expected,
+.status-success {
+    color: rgb(26, 127, 55);
+}
+
+.status-error,
+.status-failure {
+    color: rgb(207, 34, 46)
+}
+
+.status-pending {
+    color: rgb(154, 103, 0)
+}

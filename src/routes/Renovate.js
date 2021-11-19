@@ -32,6 +32,18 @@ fragment PullRequestTile on PullRequest {
        login
      }
    }
+   status @client
+   commits(last: 1) {
+     nodes {
+        commit {
+            statusCheckRollup {
+                   state
+
+
+               }
+             }
+     }
+   }
    updatedAt
  }
  `;
