@@ -36,7 +36,7 @@
     "unfetch": "^4.1.0"
   },
   "devDependencies": {
-    "eslint-plugin-ghost": "2.8.0"
+    "eslint-plugin-ghost": "2.9.0"
   },
   "eslintConfig": {
     "extends": [
