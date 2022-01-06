@@ -73,4 +73,4 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 # Copyright & License
 
-Copyright (c) 2013-2021 Ghost Foundation - Released under the [MIT license](LICENSE).
+Copyright (c) 2013-2022 Ghost Foundation - Released under the [MIT license](LICENSE).
