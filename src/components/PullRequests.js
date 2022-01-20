@@ -21,7 +21,6 @@ export const PullRequests = ({issues = []}) => (
     <ul className="card-list">
         {issues.map(
             ({number, title, url, author, labels, assignees, repository, status}) => {
-                console.log(repository.name, number, status);
                 return (
                     <li key={url} className="card">
                         <h4 className="title">

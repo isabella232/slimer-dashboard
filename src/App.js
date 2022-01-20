@@ -133,7 +133,6 @@ const cache = new InMemoryCache({
                 status: {
                     read(_, {readField}) {
                         const commit = readField({fieldName: 'commits', args: {last: 1}});
-                        console.log('commit is', commit);
                         if (commit && commit.nodes && commit.nodes[0] && commit.nodes[0].commit && commit.nodes[0].commit.statusCheckRollup) {
                             return commit.nodes[0].commit.statusCheckRollup.state;
                         }
