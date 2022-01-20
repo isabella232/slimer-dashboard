@@ -134,7 +134,7 @@ const RepositoriesWrapper = () => {
         );
     }
 
-    const totals = getTotals(data.search.nodes);
+    const totals = getTotals(getRepositories(data.search.nodes));
 
     if (loading || isLoadingMore) {
         // Show both repositories and placeholder when user clicks show more
