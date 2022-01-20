@@ -16,7 +16,7 @@ export const Issues = ({issues = []}) => (
                 return (
                     <li key={url} className="card">
                         <h4 className="title">
-                            <a href={url}><IssueOpenedIcon size={16} />{repository.name}#{number}</a> {labels.nodes.map(({name, color}) => {
+                            <a href={url} target="_blank" rel="noopener noreferrer"><IssueOpenedIcon size={16} />{repository.name}#{number}</a> {labels.nodes.map(({name, color}) => {
                                 return <NavLink to={getUrl(name, 'issues')}><Label color={color}>{name}</Label></NavLink>;
                             })}
                         </h4>

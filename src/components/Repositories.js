@@ -17,7 +17,7 @@ export const Repositories = ({repositories = []}) => (
                     <li key={url} className="card">
                         <h4 className="title">
                             {isFork ? <RepoForkedIcon size={16} /> : (isPrivate ? <LockIcon size={16} /> : <RepoIcon size={16} />)}
-                            <a href={url}>{name}</a>
+                            <a href={url} target="_blank" rel="noopener noreferrer">{name}</a>
                             {isMono ? <VersionsIcon size={16} className="indicator" /> : null}
                         </h4>
                         <div className="desc" dangerouslySetInnerHTML={{__html: descriptionHTML}} />

@@ -24,7 +24,7 @@ export const PullRequests = ({issues = []}) => (
                 return (
                     <li key={url} className="card">
                         <h4 className="title">
-                            <a href={url}><GitPullRequestIcon size={16} className={statusClassName(status)} />{repository.name}#{number}</a> {labels.nodes.map(({name, color}) => {
+                            <a href={url} target="_blank" rel="noopener noreferrer"><GitPullRequestIcon size={16} className={statusClassName(status)} />{repository.name}#{number}</a> {labels.nodes.map(({name, color}) => {
                                 return <NavLink to={getUrl(name, 'prs')}><Label color={color}>{name}</Label></NavLink>;
                             })}
                         </h4>
