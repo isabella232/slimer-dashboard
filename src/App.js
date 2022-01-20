@@ -3,7 +3,8 @@ import {
     BrowserRouter as Router,
     Routes,
     Route,
-    NavLink
+    NavLink,
+    useLocation
 } from 'react-router-dom';
 
 import {
@@ -145,6 +146,19 @@ const cache = new InMemoryCache({
     }
 });
 
+const Nav = () => {
+    const {search} = useLocation();
+
+    return (
+        <nav>
+            <NavLink className={({isActive}) => (isActive ? 'active' : null)} to={`/${search}`}>Repos</NavLink>{' | '}
+            <NavLink className={({isActive}) => (isActive ? 'active' : null)} to={`/renovate${search}`}>Renovate</NavLink>{' | '}
+            <NavLink className={({isActive}) => (isActive ? 'active' : null)} to={`/prs${search}`}>PRs</NavLink>{' | '}
+            <NavLink className={({isActive}) => (isActive ? 'active' : null)} to={`/issues${search}`}>Issues</NavLink>
+        </nav>
+    );
+};
+
 const App = () => {
     const [client, setClient] = useState();
     const [token, setToken] = useState();
@@ -197,12 +211,7 @@ const App = () => {
                             <span className="logotype">Slimer Dashboard</span>
                         </div>
                         <div>
-                            <nav>
-                                <NavLink className={({isActive}) => (isActive ? 'active' : null)} to="/">Repos</NavLink>{' | '}
-                                <NavLink className={({isActive}) => (isActive ? 'active' : null)} to="/renovate">Renovate</NavLink>{' | '}
-                                <NavLink className={({isActive}) => (isActive ? 'active' : null)} to="/prs">PRs</NavLink>{' | '}
-                                <NavLink className={({isActive}) => (isActive ? 'active' : null)} to="/issues">Issues</NavLink>
-                            </nav>
+                            <Nav />
                         </div>
                         <div>
                             <Avatar />
