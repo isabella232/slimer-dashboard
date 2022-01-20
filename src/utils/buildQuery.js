@@ -31,6 +31,10 @@ const buildQuery = (params, type, base = '') => {
         query = `${query} ${labelQuery}`;
     }
 
+    if (type === 'issue') {
+        query = `${query} -author:app/renovate`;
+    }
+
     return query;
 };
 
