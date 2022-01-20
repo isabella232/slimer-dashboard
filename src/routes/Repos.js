@@ -3,6 +3,8 @@ import {useSearchParams} from 'react-router-dom';
 
 import {useQuery, gql} from '@apollo/client';
 
+import {daniel} from '../utils/ownership';
+
 import {
     LoadMoreButton
 } from 'gitstar-components';
@@ -77,41 +79,6 @@ const GET_REPOSITORIES = gql`
   ${REPOSITORY_TILE_DATA}
 `;
 
-const daniel = [
-    'Scheduler',
-    'Ghost-Moya',
-    'Ghost-Release',
-    'super-slimer',
-    'Stats-Service',
-    'UpdateCheck',
-    'stripe.ghost.org',
-    'Ghost',
-    'Admin',
-    'express-hbs',
-    'Ghost-CLI',
-    'action-deploy-theme',
-    'knex-migrator',
-    'SDK',
-    'gscan',
-    'Portal',
-    'Members',
-    'Koenig',
-    'Utils',
-    'bookshelf-relations',
-    'api-demos',
-    'Ghost-Storage-Base',
-    'slimer',
-    'action-update-posts',
-    'action-ghost-release',
-    'digitalocean-1-click',
-    'eslint-plugin-ghost',
-    'Core',
-    'Publishing',
-    'framework',
-    'slimer-dashboard',
-    'label-actions'
-];
-
 const getRepositories = (repositories, params) => {
     if (!repositories) {
         return repositories;
@@ -121,7 +88,6 @@ const getRepositories = (repositories, params) => {
 
     if (owner && owner.indexOf('daniel') > -1) {
         return repositories.filter((a) => {
-            console.log('a.name', a.name, daniel.indexOf(a.name) > -1);
             return daniel.indexOf(a.name) > -1;
         });
     }

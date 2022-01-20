@@ -3,6 +3,7 @@ import {useSearchParams} from 'react-router-dom';
 import {useQuery, gql} from '@apollo/client';
 import Wrapper from '../components/Wrapper';
 import buildQuery from '../utils/buildQuery';
+import {daniel} from '../utils/ownership';
 
 import {
     LoadMoreButton
@@ -68,7 +69,15 @@ const GET_PRS = gql`
    ${PR_TILE_DATA}
    `;
 
-const filterPRs = (prs) => {
+const filterPRs = (prs, params) => {
+    const owner = params.getAll('owner');
+
+    if (owner && owner.indexOf('daniel') > -1) {
+        return prs.filter((a) => {
+            return daniel.indexOf(a.repository.name) > -1;
+        });
+    }
+
     return prs;
 };
 
@@ -113,13 +122,15 @@ const PRsWrapper = () => {
         );
     }
 
+    const prs = filterPRs(data.search.nodes, params);
+
     if (loading || isLoadingMore) {
         // Show both repositories and placeholder when user clicks show more
         return (
             <Wrapper className="issues">
-                <div>PRs: {data.search.issueCount}</div>
+                <div>PRs: {prs.length}</div>
                 <PullRequests
-                    issues={filterPRs(data.search.nodes)}
+                    issues={prs}
                 />
                 <Placeholder />
             </Wrapper>
@@ -128,9 +139,9 @@ const PRsWrapper = () => {
 
     return (
         <Wrapper className="issues">
-            <div>PRs: {data.search.issueCount}</div>
+            <div>PRs: {prs.length}</div>
             <PullRequests
-                issues={filterPRs(data.search.nodes)}
+                issues={prs}
             />
             <LoadMoreButton loadMore={loadMore} />
 
