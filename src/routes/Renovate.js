@@ -108,6 +108,7 @@ const PRsWrapper = () => {
     if (loading && (!data || !data.search)) {
         return (
             <Wrapper className="issues">
+                <div>Loading...</div>
                 <Placeholder />
             </Wrapper>
         );
@@ -117,6 +118,7 @@ const PRsWrapper = () => {
         // Show both repositories and placeholder when user clicks show more
         return (
             <Wrapper className="issues">
+                <div>PRs: {data.search.issueCount}</div>
                 <PullRequests
                     issues={filterPRs(data.search.nodes)}
                 />
@@ -127,6 +129,7 @@ const PRsWrapper = () => {
 
     return (
         <Wrapper className="issues">
+            <div>PRs: {data.search.issueCount}</div>
             <PullRequests
                 issues={filterPRs(data.search.nodes)}
             />

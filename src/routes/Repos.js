@@ -86,6 +86,16 @@ const getRepositories = (repositories) => {
     return repositories;
 };
 
+const getTotals = (repositories) => {
+    return repositories.reduce((a, b, c) => {
+        if (c === 1) {
+            return {issues: b.issues.totalCount, prs: b.nonRenovateRequests.totalCount, renovate: b.renovateRequests.totalCount};
+        }
+
+        return {issues: a.issues + b.issues.totalCount, prs: a.prs + b.nonRenovateRequests.totalCount, renovate: a.renovate + b.renovateRequests.totalCount};
+    });
+};
+
 const RepositoriesWrapper = () => {
     const {loading, error, data, fetchMore} = useQuery(GET_REPOSITORIES, {
         fetchPolicy: 'cache-and-network', // Used for first execution
@@ -118,15 +128,20 @@ const RepositoriesWrapper = () => {
     if (loading && (!data || !data.search)) {
         return (
             <Wrapper className="repositories">
+                <div>Loadding...</div>
                 <Placeholder />
             </Wrapper>
         );
     }
 
+    const totals = getTotals(data.search.nodes);
+
     if (loading || isLoadingMore) {
         // Show both repositories and placeholder when user clicks show more
+
         return (
             <Wrapper className="repositories">
+                <div>Repos: {data.search.repositoryCount}, Issues: {totals.issues}, PRs: {totals.prs}, Renovate PRs: {totals.renovate}</div>
                 <Repositories
                     repositories={getRepositories(data.search.nodes)}
                 />
@@ -137,6 +152,7 @@ const RepositoriesWrapper = () => {
 
     return (
         <Wrapper className="repositories">
+            <div>Repos: {data.search.repositoryCount}, Issues: {totals.issues}, PRs: {totals.prs}, Renovate PRs: {totals.renovate}</div>
             <Repositories
                 repositories={getRepositories(data.search.nodes)}
             />

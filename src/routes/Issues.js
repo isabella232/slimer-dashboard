@@ -96,6 +96,7 @@ const IssuesWrapper = (...args) => {
     if (loading && (!data || !data.search)) {
         return (
             <Wrapper className="issues">
+                <div>Loading...</div>
                 <Placeholder />
             </Wrapper>
         );
@@ -105,6 +106,7 @@ const IssuesWrapper = (...args) => {
         // Show both repositories and placeholder when user clicks show more
         return (
             <Wrapper className="issues">
+                <div>Issues: {data.search.issueCount}</div>
                 <Issues
                     issues={filterIssues(data.search.nodes)}
                 />
@@ -115,6 +117,7 @@ const IssuesWrapper = (...args) => {
 
     return (
         <Wrapper className="issues">
+            <div>Issues: {data.search.issueCount}</div>
             <Issues
                 issues={filterIssues(data.search.nodes)}
             />
