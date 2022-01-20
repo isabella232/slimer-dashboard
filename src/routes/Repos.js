@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {useSearchParams} from 'react-router-dom';
 
 import {useQuery, gql} from '@apollo/client';
 
@@ -76,12 +77,54 @@ const GET_REPOSITORIES = gql`
   ${REPOSITORY_TILE_DATA}
 `;
 
-const getRepositories = (repositories) => {
+const daniel = [
+    'Scheduler',
+    'Ghost-Moya',
+    'Ghost-Release',
+    'super-slimer',
+    'Stats-Service',
+    'UpdateCheck',
+    'stripe.ghost.org',
+    'Ghost',
+    'Admin',
+    'express-hbs',
+    'Ghost-CLI',
+    'action-deploy-theme',
+    'knex-migrator',
+    'SDK',
+    'gscan',
+    'Portal',
+    'Members',
+    'Koenig',
+    'Utils',
+    'bookshelf-relations',
+    'api-demos',
+    'Ghost-Storage-Base',
+    'slimer',
+    'action-update-posts',
+    'action-ghost-release',
+    'digitalocean-1-click',
+    'eslint-plugin-ghost',
+    'Core',
+    'Publishing',
+    'framework',
+    'slimer-dashboard',
+    'label-actions'
+];
+
+const getRepositories = (repositories, params) => {
     if (!repositories) {
         return repositories;
     }
 
-    // @TODO filtering
+    const owner = params.getAll('owner');
+
+    if (owner && owner.indexOf('daniel') > -1) {
+        return repositories.filter((a) => {
+            console.log('a.name', a.name, daniel.indexOf(a.name) > -1);
+            return daniel.indexOf(a.name) > -1;
+        });
+    }
 
     return repositories;
 };
@@ -89,14 +132,16 @@ const getRepositories = (repositories) => {
 const getTotals = (repositories) => {
     return repositories.reduce((a, b, c) => {
         if (c === 1) {
-            return {issues: b.issues.totalCount, prs: b.nonRenovateRequests.totalCount, renovate: b.renovateRequests.totalCount};
+            return {repos: repositories.length, issues: b.issues.totalCount, prs: b.nonRenovateRequests.totalCount, renovate: b.renovateRequests.totalCount};
         }
 
-        return {issues: a.issues + b.issues.totalCount, prs: a.prs + b.nonRenovateRequests.totalCount, renovate: a.renovate + b.renovateRequests.totalCount};
+        return {repos: repositories.length, issues: a.issues + b.issues.totalCount, prs: a.prs + b.nonRenovateRequests.totalCount, renovate: a.renovate + b.renovateRequests.totalCount};
     });
 };
 
 const RepositoriesWrapper = () => {
+    const [params] = useSearchParams();
+
     const {loading, error, data, fetchMore} = useQuery(GET_REPOSITORIES, {
         fetchPolicy: 'cache-and-network', // Used for first execution
         nextFetchPolicy: 'cache-first', // Used for subsequent executions
@@ -134,16 +179,16 @@ const RepositoriesWrapper = () => {
         );
     }
 
-    const totals = getTotals(getRepositories(data.search.nodes));
+    const totals = getTotals(getRepositories(data.search.nodes, params));
 
     if (loading || isLoadingMore) {
         // Show both repositories and placeholder when user clicks show more
 
         return (
             <Wrapper className="repositories">
-                <div>Repos: {data.search.repositoryCount}, Issues: {totals.issues}, PRs: {totals.prs}, Renovate PRs: {totals.renovate}</div>
+                <div>Repos: {totals.repos}, Issues: {totals.issues}, PRs: {totals.prs}, Renovate PRs: {totals.renovate}</div>
                 <Repositories
-                    repositories={getRepositories(data.search.nodes)}
+                    repositories={getRepositories(data.search.nodes, params)}
                 />
                 <Placeholder />
             </Wrapper>
@@ -152,9 +197,9 @@ const RepositoriesWrapper = () => {
 
     return (
         <Wrapper className="repositories">
-            <div>Repos: {data.search.repositoryCount}, Issues: {totals.issues}, PRs: {totals.prs}, Renovate PRs: {totals.renovate}</div>
+            <div>Repos: {totals.repos}, Issues: {totals.issues}, PRs: {totals.prs}, Renovate PRs: {totals.renovate}</div>
             <Repositories
-                repositories={getRepositories(data.search.nodes)}
+                repositories={getRepositories(data.search.nodes, params)}
             />
             <LoadMoreButton loadMore={loadMore} />
 
