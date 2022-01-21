@@ -206,8 +206,10 @@ const App = () => {
                 <Container>
                     <Header>
                         <div style={{display: 'flex', alignItems: 'center'}}>
-                            <BookmarkIcon size={16} />
-                            <span className="logotype">Slimer Dashboard</span>
+                            <NavLink to="/">
+                                <BookmarkIcon size={16} />
+                                <span className="logotype">Slimer Dashboard</span>
+                            </NavLink>
                         </div>
                         <div>
                             <Nav />
