@@ -3,7 +3,7 @@ import {useSearchParams} from 'react-router-dom';
 import {useQuery, gql} from '@apollo/client';
 import Wrapper from '../components/Wrapper';
 import buildQuery from '../utils/buildQuery';
-import {daniel} from '../utils/ownership';
+import {containsKnownOwner, matchOwner} from '../utils/ownership';
 
 import {
     LoadMoreButton
@@ -61,9 +61,9 @@ const GET_ISSUES = gql`
 const filterIssues = (issues, params) => {
     const owner = params.getAll('owner');
 
-    if (owner && owner.indexOf('daniel') > -1) {
-        return issues.filter((a) => {
-            return daniel.indexOf(a.repository.name) > -1;
+    if (owner && containsKnownOwner(owner)) {
+        return issues.filter((issue) => {
+            return matchOwner(owner, issue.repository.name);
         });
     }
 
