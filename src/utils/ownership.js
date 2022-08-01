@@ -17,9 +17,7 @@ const knownOwners = {
         'SDK',
         'gscan',
         'Portal',
-        'Members',
         'Koenig',
-        'Utils',
         'bookshelf-relations',
         'api-demos',
         'Ghost-Storage-Base',
@@ -28,8 +26,6 @@ const knownOwners = {
         'action-ghost-release',
         'digitalocean-1-click',
         'eslint-plugin-ghost',
-        'Core',
-        'Publishing',
         'framework',
         'slimer-dashboard',
         'label-actions'

@@ -5,6 +5,7 @@ import Wrapper from '../components/Wrapper';
 import buildQuery from '../utils/buildQuery';
 
 import {containsKnownOwner, matchOwner} from '../utils/ownership';
+import {containsKnownType, matchType} from '../utils/types';
 import {
     LoadMoreButton
 } from 'gitstar-components';
@@ -72,10 +73,17 @@ const GET_PRS = gql`
 
 const filterPRs = (prs, params) => {
     const owner = params.getAll('owner');
+    const type = params.getAll('type');
 
     if (owner && containsKnownOwner(owner)) {
         return prs.filter((pr) => {
             return matchOwner(owner, pr.repository.name);
+        });
+    }
+
+    if (type && containsKnownType(type)) {
+        return prs.filter((pr) => {
+            return matchType(type, pr.repository.name);
         });
     }
 

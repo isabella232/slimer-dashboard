@@ -4,6 +4,7 @@ import {useQuery, gql} from '@apollo/client';
 import Wrapper from '../components/Wrapper';
 import buildQuery from '../utils/buildQuery';
 import {containsKnownOwner, matchOwner} from '../utils/ownership';
+import {containsKnownType, matchType} from '../utils/types';
 
 import {
     LoadMoreButton
@@ -60,10 +61,17 @@ const GET_ISSUES = gql`
 
 const filterIssues = (issues, params) => {
     const owner = params.getAll('owner');
+    const type = params.getAll('type');
 
     if (owner && containsKnownOwner(owner)) {
         return issues.filter((issue) => {
             return matchOwner(owner, issue.repository.name);
+        });
+    }
+
+    if (type && containsKnownType(type)) {
+        return issues.filter((issue) => {
+            return matchType(type, issue.repository.name);
         });
     }
 
