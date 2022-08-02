@@ -4,7 +4,7 @@ import {useQuery, gql} from '@apollo/client';
 import Wrapper from '../components/Wrapper';
 import buildQuery from '../utils/buildQuery';
 import {containsKnownOwner, matchOwner} from '../utils/ownership';
-import {containsKnownType, matchType} from '../utils/types';
+import {containsKnownType, matchType} from '../utils/type';
 
 import {
     LoadMoreButton

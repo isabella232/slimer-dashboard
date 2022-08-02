@@ -4,7 +4,7 @@ import {useSearchParams} from 'react-router-dom';
 import {useQuery, gql} from '@apollo/client';
 
 import {containsKnownOwner, matchOwner} from '../utils/ownership';
-import {containsKnownType, matchType} from '../utils/types';
+import {containsKnownType, matchType} from '../utils/type';
 
 import {
     LoadMoreButton
@@ -96,7 +96,7 @@ const getRepositories = (repositories, params) => {
 
     if (type && containsKnownType(type)) {
         return repositories.filter((repo) => {
-            return matchType(type, repo.repository.name);
+            return matchType(type, repo.name);
         });
     }
 
