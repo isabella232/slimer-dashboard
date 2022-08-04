@@ -2,7 +2,6 @@ const knownTypes = {
 
     oss: [
         'Ghost',
-        'Admin',
         'express-hbs',
         'Ghost-CLI',
         'action-deploy-theme',

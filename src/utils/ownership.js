@@ -9,7 +9,6 @@ const knownOwners = {
         'UpdateCheck',
         'stripe.ghost.org',
         'Ghost',
-        'Admin',
         'express-hbs',
         'Ghost-CLI',
         'action-deploy-theme',
