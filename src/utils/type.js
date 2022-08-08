@@ -8,9 +8,39 @@ const knownTypes = {
         'knex-migrator',
         'SDK',
         'gscan',
-        'Portal',
         'Koenig',
-        'framework'
+        'framework',
+        'Zapier',
+        'Portal',
+        'comments-ui',
+        'sodo-search'
+    ],
+
+    theme: [
+        'Casper',
+        'Themes',
+        'Alto',
+        'Bulletin',
+        'Dawn',
+        'Digest',
+        'Dope',
+        'Ease',
+        'Edge',
+        'Edition',
+        'Headline',
+        'Journal',
+        'London',
+        'Ruby',
+        'Wave',
+        'Argon',
+        'Tribeca',
+        'Starter',
+        'Lyra',
+        'Massively',
+        'Pico',
+        'Editorial',
+        'Roon',
+        'Zap'
     ]
 };
 
