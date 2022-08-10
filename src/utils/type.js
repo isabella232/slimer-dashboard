@@ -13,7 +13,8 @@ const knownTypes = {
         'Zapier',
         'Portal',
         'comments-ui',
-        'sodo-search'
+        'sodo-search',
+        'Themes'
     ],
 
     theme: [
