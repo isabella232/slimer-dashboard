@@ -105,11 +105,22 @@ const getRepositories = (repositories, params) => {
 
 const getTotals = (repositories) => {
     return repositories.reduce((a, b, c) => {
+        const repos = repositories.length;
+        let issues = (b.issues.totalCount ? b.issues.totalCount : 0);
+        let prs = (b.nonRenovateRequests.totalCount ? b.nonRenovateRequests.totalCount : 0);
+        let renovate = (b.renovateRequests.totalCount ? b.renovateRequests.totalCount : 0);
+
         if (c === 1) {
-            return {repos: repositories.length, issues: b.issues.totalCount, prs: b.nonRenovateRequests.totalCount, renovate: b.renovateRequests.totalCount};
+            issues += (a.issues.totalCount ? a.issues.totalCount : 0);
+            prs += (a.nonRenovateRequests.totalCount ? a.nonRenovateRequests.totalCount : 0);
+            renovate += (a.renovateRequests.totalCount ? a.renovateRequests.totalCount : 0);
+        } else {
+            issues += a.issues;
+            prs += a.prs;
+            renovate += a.renovate;
         }
 
-        return {repos: repositories.length, issues: a.issues + b.issues.totalCount, prs: a.prs + b.nonRenovateRequests.totalCount, renovate: a.renovate + b.renovateRequests.totalCount};
+        return {repos, issues, prs, renovate};
     });
 };
 
